@@ -2,7 +2,9 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.kotlin
+.idea/
+*.iml
+*.iws
 
 ### Eclipse ###
 .apt_generated
@@ -10,21 +12,23 @@ out/
 .factorypath
 .project
 .settings
-.springBeans
 .sts4-cache
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
 ### NetBeans ###
-/nbproject/private/
+nbproject/
+build/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
+# Archivos compilados de Java
+*.class
+
 ### VS Code ###
-.vscode/
 
 ### Mac OS ###
 .DS_Store
