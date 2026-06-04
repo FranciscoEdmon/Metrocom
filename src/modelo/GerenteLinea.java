@@ -10,8 +10,8 @@ public class GerenteLinea extends Usuario{
         super();
     }
 
-    public GerenteLinea(int IDGerente,int Usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contraseña, Linea LineaAsignada){
-        super(Usuario, fechaDeNacimiento, nombre, apellidoPat, apellidoMat, correo, contraseña);
+    public GerenteLinea(int usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contrasena, int IDGerente, Linea LineaAsignada){
+        super(usuario, fechaDeNacimiento, nombre, apellidoPat, apellidoMat, correo, contrasena);
         this.id_GerenteLinea = IDGerente;
         this.LineaAsignada = LineaAsignada;
     }

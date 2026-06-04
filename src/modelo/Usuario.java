@@ -4,20 +4,20 @@ import java.time.LocalDate;
 abstract public class Usuario {
     private int id_Usuario;
     private LocalDate fechaDeNacimiento;
-    private String nombre, apellidoPat, apellidoMat, correo, contraseña;
+    private String nombre, apellidoPat, apellidoMat, correo, contrasena;
     
     public Usuario(){
     }
 
-    public Usuario(int Usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contraseña){
+    public Usuario(int usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contrasena){
 
-        this.id_Usuario = Usuario ;
+        this.id_Usuario = usuario ;
         this.fechaDeNacimiento = fechaDeNacimiento;
         this.nombre = nombre ;
         this.correo = correo ;
         this.apellidoPat = apellidoPat ;
         this.apellidoMat = apellidoMat ;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
 
     }
 
@@ -45,8 +45,8 @@ abstract public class Usuario {
         return correo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
     public void setId_Usuario(int id_Usuario) {
@@ -73,8 +73,8 @@ abstract public class Usuario {
         this.correo = correo;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
     
 }

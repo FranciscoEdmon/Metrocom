@@ -1,18 +1,19 @@
 package modelo;
 
 public class Estacion {
-    int id_Estacion;
+    int id_Estacion, id_linea;
     String nombreEstacion;
     boolean transbordo;
 
     public Estacion(){
     }
     
-    public Estacion(int ID, String nombre, boolean transbordo){
+    public Estacion(int id_estacion, String nombreEstacion, boolean transbordo, int id_linea){
         
-    this.id_Estacion = ID ;
-    this.nombreEstacion = nombre ;
+    this.id_Estacion = id_estacion ;
+    this.nombreEstacion = nombreEstacion ;
     this.transbordo = transbordo ;
+    this.id_linea = id_linea;
     
     }
 

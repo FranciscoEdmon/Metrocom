@@ -9,8 +9,8 @@ public class Administrador extends Usuario {
         super();
     }
     
-    public Administrador(int IDAdministrador,int Usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contraseña){
-        super(Usuario, fechaDeNacimiento, nombre, apellidoPat, apellidoMat, correo,contraseña);
+    public Administrador(int usuario, LocalDate fechaDeNacimiento, String nombre, String apellidoPat, String apellidoMat, String correo, String contrasena, int IDAdministrador){
+        super(usuario, fechaDeNacimiento, nombre, apellidoPat, apellidoMat, correo,contrasena);
         this.id_Administrador = IDAdministrador;
     }
 
