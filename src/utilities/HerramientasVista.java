@@ -1,9 +1,9 @@
-package utilidades;
+package utilities;
 
 import javax.swing.JComboBox;
 import java.util.List;
-import modelo.Linea;
-import modelo.Estacion;
+import model.Linea;
+import model.Estacion;
 import dao.LineaDAO;
 import dao.EstacionDAO;
 

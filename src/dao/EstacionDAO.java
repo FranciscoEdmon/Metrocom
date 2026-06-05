@@ -6,13 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import modelo.Estacion;
+import model.Estacion;
 
 public class EstacionDAO {
 
     public List<Estacion> obtenerEstacionesPorLinea(int idLinea){
         
-        List<Estacion> listaDeEstaciones = new ArrayList <>();
+            List<Estacion> listaDeEstaciones = new ArrayList<>();
 
         String sql = "Select * FROM estacion WHERE id_linea = ?";
 
@@ -35,9 +35,9 @@ public class EstacionDAO {
             }
         }catch(SQLException e){
             System.err.println("Error al obtener las estaciones: " + e.getMessage());
-        }
+         }
 
-        return listaDeEstaciones;
-    };
-}
+         return listaDeEstaciones;
+     }
+ }
 

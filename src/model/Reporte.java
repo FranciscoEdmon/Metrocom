@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class Reporte {
     private int id_Reporte;

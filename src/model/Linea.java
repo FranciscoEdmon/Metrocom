@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class Linea {
     private int  id_Linea;

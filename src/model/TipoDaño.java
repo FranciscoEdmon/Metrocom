@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class TipoDaño {
     private int id_TipoDaño;

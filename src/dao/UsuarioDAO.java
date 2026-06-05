@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import modelo.Usuario;
-import modelo.JefeEstacion;
-import modelo.Linea;
-import modelo.Administrador;
-import modelo.Estacion;
-import modelo.GerenteLinea;
+import model.Usuario;
+import model.JefeEstacion;
+import model.Administrador;
+import model.GerenteLinea;
 
     public class UsuarioDAO {
         
@@ -40,7 +38,7 @@ import modelo.GerenteLinea;
                     }else if (rs.getInt("id_jefeDeEstacion") != 0) {
 
                         usuarioLogeuado = new JefeEstacion(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jedeDeEstacion"), null
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jefeDeEstacion"), null
                         );
                         
                     }else if(rs.getInt("id_gerenteDeLinea") != 0) {

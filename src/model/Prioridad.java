@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class Prioridad {
     private int id_prioridad;
