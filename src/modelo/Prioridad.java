@@ -7,8 +7,8 @@ public class Prioridad {
     public Prioridad(){
     }
 
-    public Prioridad(int IDprioridad, String nivel, String criterio){
-        this.id_prioridad = IDprioridad ;
+    public Prioridad(int IdPrioridad, String nivel, String criterio){
+        this.id_prioridad = IdPrioridad ;
         this.nivel = nivel;
         this.criterio = criterio;
     }
