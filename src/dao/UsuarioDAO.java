@@ -14,7 +14,7 @@ import model.GerenteLinea;
         public Usuario validarLogin(String correoIngresado, String contrasenaIngresada){
             Usuario usuarioLogeuado = null;
 
-            String sql = "SELECT u.*, a.id_administrador, j.id_jefeDeEstacion, j.id_estacion, g.id_gerenteDeLinea, g.id_linea " + "FROM usuarios u" + "LEFT JOIN administrador a ON u.id_usuario = a.id_usuario " + "LEFT JOIN jefeDeEstacion j ON u.id_usuario = j.id_usuario " + "LEFT JOIN gerenteDeLinea g ON u.id_usuario = g.id_usuario " + "WHERE u.correo = ?, AND u.contraseña = ?";
+            String sql = "SELECT u.*, a.id_administrador, j.id_jefeDeEstacion, j.id_estacion, g.id_gerenteDeLinea, g.id_linea " + "FROM usuarios u" + "LEFT JOIN administrador a ON u.id_usuario = a.id_usuario " + "LEFT JOIN jefeDeEstacion j ON u.id_usuario = j.id_usuario " + "LEFT JOIN gerenteDeLinea g ON u.id_usuario = g.id_usuario " + "WHERE u.correo = ? AND u.contraseña = ?";
 
             try{
                 Connection con = ConexionDB.getConexion();
