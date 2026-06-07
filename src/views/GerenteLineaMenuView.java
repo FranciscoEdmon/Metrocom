@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class GerenteLineaMenuView extends JFrame {
+public class GerenteLineaMenuView extends VentanaBase {
 
     private JButton btnBandejaEntrada;
     private JButton btnReportesAtencion;
@@ -13,19 +16,17 @@ public class GerenteLineaMenuView extends JFrame {
     private JLabel lblLineaAsignada;
 
     public GerenteLineaMenuView() {
-        setTitle("MetroCom - Panel de Control Gerencial");
-        setSize(500, 350);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Panel de Control Gerencial", 500, 350, JFrame.EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout(15, 15));
+        TarjetitaModerna panelPrincipal = new TarjetitaModerna(new BorderLayout(15, 15));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
 
         // --- Norte: Datos de la Sesión ---
         JPanel panelHeader = new JPanel(new GridLayout(2, 1, 5, 5));
+        panelHeader.setOpaque(false);
         lblNombreGerente = new JLabel("Bienvenido, Gerente de Línea", SwingConstants.CENTER);
         lblNombreGerente.setFont(new Font("Arial", Font.BOLD, 16));
 
@@ -39,13 +40,11 @@ public class GerenteLineaMenuView extends JFrame {
 
         // --- Centro: Botones de Gestión ---
         JPanel panelMenu = new JPanel(new GridLayout(2, 1, 15, 15));
+        panelMenu.setOpaque(false);
         panelMenu.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
 
-        btnBandejaEntrada = new JButton("Bandeja de Entrada (Reportes Pendientes)");
-        btnBandejaEntrada.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        btnReportesAtencion = new JButton("Reportes en Atención (En Curso)");
-        btnReportesAtencion.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBandejaEntrada = new BotonModerno("Bandeja de Entrada (Reportes Pendientes)");
+        btnReportesAtencion = new BotonModerno("Reportes en Atención (En Curso)");
 
         panelMenu.add(btnBandejaEntrada);
         panelMenu.add(btnReportesAtencion);
@@ -53,10 +52,8 @@ public class GerenteLineaMenuView extends JFrame {
 
         // --- Sur: Salida ---
         JPanel panelFooter = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(255, 102, 102));
-        btnCerrarSesion.setForeground(Color.WHITE);
-
+        panelFooter.setOpaque(false);
+        btnCerrarSesion = new BotonModerno("Cerrar Sesión");
         panelFooter.add(btnCerrarSesion);
         panelPrincipal.add(panelFooter, BorderLayout.SOUTH);
 

@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class JefeEstacionMenuView extends JFrame {
+public class JefeEstacionMenuView extends VentanaBase {
 
     private JButton btnNuevoReporte;
     private JButton btnMisReportes;
@@ -13,20 +16,18 @@ public class JefeEstacionMenuView extends JFrame {
     private JLabel lblNombreJefe;
 
     public JefeEstacionMenuView() {
-        setTitle("MetroCom - Panel Operativo (Jefe de Estación)");
-        setSize(450, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Al cerrar el menú, se cierra toda la app
-        setLocationRelativeTo(null);
+        super("MetroCom - Panel Operativo (Jefe de Estación)", 450, 300, JFrame.EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
         // Panel principal con un margen para que no se vea pegado a los bordes
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        TarjetitaModerna panelPrincipal = new TarjetitaModerna(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
         // --- Norte: Información del Usuario y Estación ---
         JPanel panelInfo = new JPanel(new GridLayout(2, 1, 5, 5));
+        panelInfo.setOpaque(false);
 
         lblNombreJefe = new JLabel("Bienvenido, Jefe de Estación", SwingConstants.CENTER);
         lblNombreJefe.setFont(new Font("Arial", Font.BOLD, 16));
@@ -42,13 +43,11 @@ public class JefeEstacionMenuView extends JFrame {
 
         // --- Centro: Botones de Acción (El Menú) ---
         JPanel panelBotones = new JPanel(new GridLayout(2, 1, 15, 15));
+        panelBotones.setOpaque(false);
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
-        btnNuevoReporte = new JButton("Levantar Nuevo Reporte");
-        btnNuevoReporte.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        btnMisReportes = new JButton("Consultar Mis Reportes");
-        btnMisReportes.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnNuevoReporte = new BotonModerno("Levantar Nuevo Reporte");
+        btnMisReportes = new BotonModerno("Consultar Mis Reportes");
 
         panelBotones.add(btnNuevoReporte);
         panelBotones.add(btnMisReportes);
@@ -57,9 +56,8 @@ public class JefeEstacionMenuView extends JFrame {
 
         // --- Sur: Botón de Cerrar Sesión ---
         JPanel panelSalir = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(255, 102, 102)); // Rojo tenue para indicar salida
-        btnCerrarSesion.setForeground(Color.WHITE);
+        panelSalir.setOpaque(false);
+        btnCerrarSesion = new BotonModerno("Cerrar Sesión");
 
         panelSalir.add(btnCerrarSesion);
 

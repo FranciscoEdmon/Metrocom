@@ -4,8 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import model.Linea;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class GestionInfraestructuraView extends JFrame {
+public class GestionInfraestructuraView extends VentanaBase {
     // Componentes Línea
     private JTextField txtNombreLinea, txtColorLinea;
     private JButton btnAddLinea, btnEditLinea, btnDelLinea;
@@ -21,21 +24,21 @@ public class GestionInfraestructuraView extends JFrame {
     private JButton btnRegresar;
 
     public GestionInfraestructuraView() {
-        setTitle("MetroCom - Control de Infraestructura");
-        setSize(900, 650);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Control de Infraestructura", 900, 650, JFrame.DISPOSE_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
         setLayout(new BorderLayout(10, 10));
 
+        TarjetitaModerna container = new TarjetitaModerna(new BorderLayout());
+
         JTabbedPane pestañas = new JTabbedPane();
 
         // ====== PESTAÑA 1: GESTIÓN DE LÍNEAS ======
         JPanel panelLineas = new JPanel(new BorderLayout(10, 10));
         JPanel formLineas = new JPanel(new GridLayout(3, 2, 5, 5));
+        formLineas.setOpaque(false);
         formLineas.setBorder(BorderFactory.createTitledBorder("Datos de Línea"));
 
         formLineas.add(new JLabel("Nombre de la Línea:"));
@@ -47,14 +50,15 @@ public class GestionInfraestructuraView extends JFrame {
         formLineas.add(txtColorLinea);
 
         JPanel accionesLineas = new JPanel(new GridLayout(1, 3, 5, 5));
-        btnAddLinea = new JButton("Agregar Línea");
-        btnEditLinea = new JButton("Editar Línea");
-        btnDelLinea = new JButton("Eliminar Línea");
+        btnAddLinea = new BotonModerno("Agregar Línea");
+        btnEditLinea = new BotonModerno("Editar Línea");
+        btnDelLinea = new BotonModerno("Eliminar Línea");
         accionesLineas.add(btnAddLinea);
         accionesLineas.add(btnEditLinea);
         accionesLineas.add(btnDelLinea);
 
         JPanel contenedorIzquierdoL = new JPanel(new BorderLayout(5, 5));
+        contenedorIzquierdoL.setOpaque(false);
         contenedorIzquierdoL.add(formLineas, BorderLayout.CENTER);
         contenedorIzquierdoL.add(accionesLineas, BorderLayout.SOUTH);
 
@@ -67,6 +71,7 @@ public class GestionInfraestructuraView extends JFrame {
         // ====== PESTAÑA 2: GESTIÓN DE ESTACIONES ======[cite: 22]
         JPanel panelEstaciones = new JPanel(new BorderLayout(10, 10));
         JPanel formEstaciones = new JPanel(new GridLayout(4, 2, 5, 5));
+        formEstaciones.setOpaque(false);
         formEstaciones.setBorder(BorderFactory.createTitledBorder("Datos de Estación"));
 
         formEstaciones.add(new JLabel("Nombre de Estación:"));
@@ -82,14 +87,15 @@ public class GestionInfraestructuraView extends JFrame {
         formEstaciones.add(chkTransbordo);
 
         JPanel accionesEstaciones = new JPanel(new GridLayout(1, 3, 5, 5));
-        btnAddEstacion = new JButton("Agregar Estación");
-        btnEditEstacion = new JButton("Editar Estación");
-        btnDelEstacion = new JButton("Eliminar Estación");
+        btnAddEstacion = new BotonModerno("Agregar Estación");
+        btnEditEstacion = new BotonModerno("Editar Estación");
+        btnDelEstacion = new BotonModerno("Eliminar Estación");
         accionesEstaciones.add(btnAddEstacion);
         accionesEstaciones.add(btnEditEstacion);
         accionesEstaciones.add(btnDelEstacion);
 
         JPanel contenedorIzquierdoE = new JPanel(new BorderLayout(5, 5));
+        contenedorIzquierdoE.setOpaque(false);
         contenedorIzquierdoE.add(formEstaciones, BorderLayout.CENTER);
         contenedorIzquierdoE.add(accionesEstaciones, BorderLayout.SOUTH);
 
@@ -99,11 +105,16 @@ public class GestionInfraestructuraView extends JFrame {
 
         pestañas.addTab("Estaciones", panelEstaciones);
 
-        add(pestañas, BorderLayout.CENTER);
+        container.add(pestañas, BorderLayout.CENTER);
 
         // Botón inferior para volver al menú de administración
-        btnRegresar = new JButton("Volver al Menú Principal");
-        add(btnRegresar, BorderLayout.SOUTH);
+        btnRegresar = new BotonModerno("Volver al Menú Principal");
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        footer.setOpaque(false);
+        footer.add(btnRegresar);
+        container.add(footer, BorderLayout.SOUTH);
+
+        add(container);
     }
 
     // Getters de Líneas

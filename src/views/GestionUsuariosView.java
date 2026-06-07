@@ -5,8 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import model.Linea;
 import model.Estacion;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class GestionUsuariosView extends JFrame {
+public class GestionUsuariosView extends VentanaBase {
     // Componentes de formulario
     private JTextField txtNombre, txtApellidoPat, txtApellidoMat, txtCorreo, txtFechaNac;
     private JPasswordField txtContrasena;
@@ -19,18 +22,18 @@ public class GestionUsuariosView extends JFrame {
     private JTable tblUsuarios; // Para listar los usuarios existentes
 
     public GestionUsuariosView() {
-        setTitle("MetroCom - Gestión de Usuarios");
-        setSize(850, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Gestión de Usuarios", 850, 600, JFrame.DISPOSE_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
         setLayout(new BorderLayout(10, 10));
 
+        TarjetitaModerna container = new TarjetitaModerna(new BorderLayout(10,10));
+
         // --- PANEL IZQUIERDO: FORMULARIO ---
         JPanel panelForm = new JPanel(new GridBagLayout());
+        panelForm.setOpaque(false);
         panelForm.setBorder(BorderFactory.createTitledBorder("Datos del Operativo"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -83,10 +86,11 @@ public class GestionUsuariosView extends JFrame {
 
         // Botonera de Acciones
         JPanel panelBotones = new JPanel(new GridLayout(2, 2, 5, 5));
-        btnRegistrar = new JButton("Registrar");
-        btnEditar = new JButton("Editar");
-        btnEliminar = new JButton("Dar de Baja");
-        btnRegresar = new JButton("Regresar");
+        panelBotones.setOpaque(false);
+        btnRegistrar = new BotonModerno("Registrar");
+        btnEditar = new BotonModerno("Editar");
+        btnEliminar = new BotonModerno("Dar de Baja");
+        btnRegresar = new BotonModerno("Regresar");
 
         panelBotones.add(btnRegistrar);
         panelBotones.add(btnEditar);
@@ -96,15 +100,18 @@ public class GestionUsuariosView extends JFrame {
         gbc.gridx = 0; gbc.gridy = 9; gbc.gridwidth = 2;
         panelForm.add(panelBotones, gbc);
 
-        add(panelForm, BorderLayout.WEST);
+        container.add(panelForm, BorderLayout.WEST);
 
         // --- PANEL DERECHO: TABLA DE VISUALIZACIÓN ---
         JPanel panelTabla = new JPanel(new BorderLayout());
+        panelTabla.setOpaque(false);
         panelTabla.setBorder(BorderFactory.createTitledBorder("Personal Registrado"));
         tblUsuarios = new JTable(); // Aquí mapearás el modelo de tabla en tu controlador
         panelTabla.add(new JScrollPane(tblUsuarios), BorderLayout.CENTER);
 
-        add(panelTabla, BorderLayout.CENTER);
+        container.add(panelTabla, BorderLayout.CENTER);
+
+        add(container);
     }
 
     // Getters para recuperar la información del formulario

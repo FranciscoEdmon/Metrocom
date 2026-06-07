@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class MisReportesView extends JFrame {
+public class MisReportesView extends VentanaBase {
 
     private JTable tblMisReportes;
     private JButton btnActualizar;
@@ -12,24 +15,22 @@ public class MisReportesView extends JFrame {
     private JLabel lblTotalReportes;
 
     public MisReportesView() {
-        setTitle("MetroCom - Mis Reportes Históricos");
-        setSize(750, 450);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Mis Reportes Históricos", 750, 450, JFrame.DISPOSE_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        TarjetitaModerna panelPrincipal = new TarjetitaModerna(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Norte: Título y contador
         JPanel panelNorte = new JPanel(new BorderLayout());
+        panelNorte.setOpaque(false);
         JLabel lblTitulo = new JLabel("Historial de Fallas Reportadas", SwingConstants.LEFT);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
 
         lblTotalReportes = new JLabel("Total de reportes: 0");
-        lblTotalReportes.setForeground(Color.DARK_GRAY);
+        lblTotalReportes.setForeground(Color.WHITE);
 
         panelNorte.add(lblTitulo, BorderLayout.WEST);
         panelNorte.add(lblTotalReportes, BorderLayout.EAST);
@@ -44,9 +45,9 @@ public class MisReportesView extends JFrame {
 
         // Sur: Botones
         JPanel panelSur = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnRegresar = new JButton("Regresar al Menú");
-        btnActualizar = new JButton("Actualizar Tabla");
-        btnActualizar.setBackground(new Color(153, 204, 255));
+        panelSur.setOpaque(false);
+        btnRegresar = new BotonModerno("Regresar al Menú");
+        btnActualizar = new BotonModerno("Actualizar Tabla");
 
         panelSur.add(btnRegresar);
         panelSur.add(btnActualizar);

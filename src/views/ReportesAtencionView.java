@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.ViewComponetns.BotonModerno;
+import views.ViewComponetns.TarjetitaModerna;
+import views.ViewComponetns.VentanaBase;
 
-public class ReportesAtencionView extends JFrame {
+public class ReportesAtencionView extends VentanaBase {
 
     private JTable tblEnCurso;
     private JButton btnCompletarReporte;
@@ -12,15 +15,12 @@ public class ReportesAtencionView extends JFrame {
     private JButton btnRegresar;
 
     public ReportesAtencionView() {
-        setTitle("MetroCom - Reportes en Proceso de Reparación");
-        setSize(800, 480);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Reportes en Proceso de Reparación", 800, 480, JFrame.DISPOSE_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+        TarjetitaModerna panelPrincipal = new TarjetitaModerna(new BorderLayout(10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Norte: Título
@@ -38,19 +38,18 @@ public class ReportesAtencionView extends JFrame {
 
         // Sur: Acciones
         JPanel panelAcciones = new JPanel(new BorderLayout());
+        panelAcciones.setOpaque(false);
 
         JPanel panelIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnRegresar = new JButton("Regresar al Menú");
+        panelIzquierdo.setOpaque(false);
+        btnRegresar = new BotonModerno("Regresar al Menú");
         panelIzquierdo.add(btnRegresar);
 
         JPanel panelDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        btnActualizar = new JButton("Actualizar");
+        panelDerecho.setOpaque(false);
+        btnActualizar = new BotonModerno("Actualizar");
 
-        btnCompletarReporte = new JButton("Marcar como Completado");
-        btnCompletarReporte.setBackground(new Color(46, 204, 113)); // Verde de éxito/solucionado
-        btnCompletarReporte.setForeground(Color.WHITE);
-        btnCompletarReporte.setFont(new Font("Arial", Font.BOLD, 12));
-
+        btnCompletarReporte = new BotonModerno("Marcar como Completado");
         panelDerecho.add(btnActualizar);
         panelDerecho.add(btnCompletarReporte);
 
