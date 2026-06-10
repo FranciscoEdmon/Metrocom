@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import modelo.Usuario;
-import modelo.JefeEstacion;
-import modelo.Linea;
-import modelo.Administrador;
-import modelo.Estacion;
-import modelo.GerenteLinea;
+
+import model.Administrador;
+import model.Estacion;
+import model.GerenteLinea;
+import model.JefeEstacion;
+import model.Linea;
+import model.Usuario;
 
     public class UsuarioDAO {
         
@@ -39,14 +40,24 @@ import modelo.GerenteLinea;
 
                     }else if (rs.getInt("id_jefeDeEstacion") != 0) {
 
+                        EstacionDAO estDAO = new EstacionDAO();
+
+                        int idDeLaEstacion = rs.getInt("id_estacion");
+                        Estacion suEstacionCompleta = estDAO.buscarPoId(idDeLaEstacion);
+
                         usuarioLogeuado = new JefeEstacion(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jedeDeEstacion"), null
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jefeDeEstacion"), suEstacionCompleta
                         );
                         
                     }else if(rs.getInt("id_gerenteDeLinea") != 0) {
 
+                        LineaDAO lineaDAO = new LineaDAO();
+
+                        int idDeLaLinea = rs.getInt("id_linea");
+                        Linea lineaCompleta = lineaDAO.buscarPorId(idDeLaLinea);
+
                         usuarioLogeuado = new GerenteLinea(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_gerenteDeLinea"), null
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_gerenteDeLinea"), lineaCompleta
                         );
 
                     }

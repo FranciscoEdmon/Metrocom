@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class Estacion {
     int id_Estacion, id_linea;

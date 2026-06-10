@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import modelo.TipoInfra;
+import model.TipoInfra;
 
 public class TipoInfraDAO {
 

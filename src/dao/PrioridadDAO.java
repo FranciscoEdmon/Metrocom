@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Prioridad;
+
+import model.Prioridad;
 
 public class PrioridadDAO {
 
@@ -25,7 +26,7 @@ public class PrioridadDAO {
             
             while (rs.next()) {
 
-                Prioridad prioridad = new Prioridad(rs.getInt("IdPrioridad"), rs.getString("nivel"), rs.getString("criterio"));
+                Prioridad prioridad = new Prioridad(rs.getInt("IdPrioridad"), rs.getString("criterio"));
 
                 ListaPrioridades.add(prioridad);
             }

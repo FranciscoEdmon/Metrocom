@@ -1,4 +1,4 @@
-package modelo;
+package model;
 
 public class Linea {
     private int  id_Linea;
@@ -7,10 +7,10 @@ public class Linea {
     public Linea(){
     }
 
-    public Linea(int ID, String nombre, String color){
-        this.id_Linea = ID;
-        this.nombreLinea = nombre ;
-        this.colorLinea = color;
+    public Linea(int id_Linea, String nombreLinea, String colorLinea){
+        this.id_Linea = id_Linea;
+        this.nombreLinea = nombreLinea ;
+        this.colorLinea = colorLinea;
     }
 
     public int getId_Linea() {

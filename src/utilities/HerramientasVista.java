@@ -1,16 +1,17 @@
-package utilidades;
+package utilities;
 
 import javax.swing.JComboBox;
 import java.util.List;
-import modelo.Linea;
-import modelo.Prioridad;
-import modelo.TipoDano;
-import modelo.TipoInfra;
-import modelo.Estacion;
+
 import dao.LineaDAO;
 import dao.PrioridadDAO;
-import dao.TipoDanoDAO;
+import dao.TipoDañoDAO;
 import dao.TipoInfraDAO;
+import model.Estacion;
+import model.Linea;
+import model.Prioridad;
+import model.TipoDaño;
+import model.TipoInfra;
 import dao.EstacionDAO;
 
 
@@ -59,15 +60,15 @@ public class HerramientasVista {
     }
 
         //Herramienta para cargar los comboBox de tipo de daño
-    public static void CargarTipoDanoCombo(JComboBox<TipoDano> comboDano){
+    public static void CargarTipoDanoCombo(JComboBox<TipoDaño> comboDano){
 
         comboDano.removeAllItems();
 
-        TipoDanoDAO danoDAO = new TipoDanoDAO();
-        List<TipoDano> listaDano = danoDAO.ObtenerLosTDano();
+        TipoDañoDAO danoDAO = new TipoDañoDAO();
+        List<TipoDaño> listaDano = danoDAO.ObtenerLosTDano();
 
-        for(TipoDano dano : listaDano){
-            comboDano.addItem(dano);
+        for(TipoDaño daño : listaDano){
+            comboDano.addItem(daño);
         }
     }
 
