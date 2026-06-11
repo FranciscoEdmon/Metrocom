@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.base.VentanaBase;
+import views.base.PanelNubeHeader;
+import views.base.BotonModerno;
 
-public class JefeEstacionMenuView extends JFrame {
+public class JefeEstacionMenuView extends VentanaBase {
 
     private JButton btnNuevoReporte;
     private JButton btnMisReportes;
@@ -13,82 +16,55 @@ public class JefeEstacionMenuView extends JFrame {
     private JLabel lblNombreJefe;
 
     public JefeEstacionMenuView() {
-        setTitle("MetroCom - Panel Operativo (Jefe de Estación)");
-        setSize(450, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Al cerrar el menú, se cierra toda la app
-        setLocationRelativeTo(null);
+        super("MetroCom - Panel Operativo (Jefe de Estación)", 660, 320, JFrame.EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        // Panel principal con un margen para que no se vea pegado a los bordes
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        PanelModerno panelPrincipal = new PanelModerno(new BorderLayout(15, 15));
 
-        // --- Norte: Información del Usuario y Estación ---
-        JPanel panelInfo = new JPanel(new GridLayout(2, 1, 5, 5));
+        PanelNubeHeader panelNube = new PanelNubeHeader();
+        panelNube.setLayout(new GridLayout(2, 1, 4, 4));
 
         lblNombreJefe = new JLabel("Bienvenido, Jefe de Estación", SwingConstants.CENTER);
-        lblNombreJefe.setFont(new Font("Arial", Font.BOLD, 16));
+        lblNombreJefe.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblNombreJefe.setForeground(new Color(40, 20, 0)); // Texto contrastante dentro del fondo nube brillante
 
         lblEstacionActual = new JLabel("Estación Asignada: [Cargando...]", SwingConstants.CENTER);
-        lblEstacionActual.setFont(new Font("Arial", Font.ITALIC, 14));
-        lblEstacionActual.setForeground(new Color(50, 50, 150)); // Un azul oscuro elegante
+        lblEstacionActual.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        lblEstacionActual.setForeground(new Color(60, 30, 0));
 
-        panelInfo.add(lblNombreJefe);
-        panelInfo.add(lblEstacionActual);
+        panelNube.add(lblNombreJefe);
+        panelNube.add(lblEstacionActual);
+        panelPrincipal.add(panelNube, BorderLayout.NORTH);
 
-        panelPrincipal.add(panelInfo, BorderLayout.NORTH);
+        JPanel panelBotones = new JPanel(new GridLayout(1, 2, 15, 15));
+        panelBotones.setOpaque(false);
 
-        // --- Centro: Botones de Acción (El Menú) ---
-        JPanel panelBotones = new JPanel(new GridLayout(2, 1, 15, 15));
-        panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-
-        btnNuevoReporte = new JButton("Levantar Nuevo Reporte");
-        btnNuevoReporte.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        btnMisReportes = new JButton("Consultar Mis Reportes");
-        btnMisReportes.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnNuevoReporte = new BotonModerno("Levantar Nuevo Reporte de Falla");
+        btnMisReportes = new BotonModerno("Consultar Mis Reportes");
 
         panelBotones.add(btnNuevoReporte);
         panelBotones.add(btnMisReportes);
-
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);
 
-        // --- Sur: Botón de Cerrar Sesión ---
         JPanel panelSalir = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(255, 102, 102)); // Rojo tenue para indicar salida
-        btnCerrarSesion.setForeground(Color.WHITE);
+        panelSalir.setOpaque(false);
 
+        // Botón con color distintivo de la gama de advertencia/atención (Rojo quemado / Naranja Intenso)
+        btnCerrarSesion = new BotonModerno("Cerrar Sesión", new Color(220, 70, 0), Color.WHITE);
         panelSalir.add(btnCerrarSesion);
-
         panelPrincipal.add(panelSalir, BorderLayout.SOUTH);
 
         add(panelPrincipal);
     }
 
-    // --- Setters para que el Controlador inyecte los datos de la sesión ---
+    //Setters para que el controlador inyecte los datos
+    public void setNombreJefe(String nombreCompleto) { lblNombreJefe.setText("Bienvenido, " + nombreCompleto); }
+    public void setEstacionAsignada(String nombreEstacion) { lblEstacionActual.setText("Estación Asignada: " + nombreEstacion); }
 
-    public void setNombreJefe(String nombreCompleto) {
-        lblNombreJefe.setText("Bienvenido, " + nombreCompleto);
-    }
-
-    public void setEstacionAsignada(String nombreEstacion) {
-        lblEstacionActual.setText("Estación Asignada: " + nombreEstacion);
-    }
-
-    // --- Listeners para el Controlador ---
-
-    public void escucharBtnNuevoReporte(ActionListener l) {
-        btnNuevoReporte.addActionListener(l);
-    }
-
-    public void escucharBtnMisReportes(ActionListener l) {
-        btnMisReportes.addActionListener(l);
-    }
-
-    public void escucharBtnCerrarSesion(ActionListener l) {
-        btnCerrarSesion.addActionListener(l);
-    }
+    //Listeners para que el controlador escuche los eventos
+    public void escucharBtnNuevoReporte(ActionListener l) { btnNuevoReporte.addActionListener(l); }
+    public void escucharBtnMisReportes(ActionListener l) { btnMisReportes.addActionListener(l); }
+    public void escucharBtnCerrarSesion(ActionListener l) { btnCerrarSesion.addActionListener(l); }
 }

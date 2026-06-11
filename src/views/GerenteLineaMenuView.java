@@ -3,8 +3,11 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import views.base.VentanaBase;
+import views.base.PanelNubeHeader;
+import views.base.BotonModerno;
 
-public class GerenteLineaMenuView extends JFrame {
+public class GerenteLineaMenuView extends VentanaBase {
 
     private JButton btnBandejaEntrada;
     private JButton btnReportesAtencion;
@@ -13,61 +16,53 @@ public class GerenteLineaMenuView extends JFrame {
     private JLabel lblLineaAsignada;
 
     public GerenteLineaMenuView() {
-        setTitle("MetroCom - Panel de Control Gerencial");
-        setSize(500, 350);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        super("MetroCom - Panel de Control Gerencial", 660, 320, JFrame.EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout(15, 15));
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        PanelModerno panelPrincipal = new PanelModerno(new BorderLayout(15, 15));
 
-        // --- Norte: Datos de la Sesión ---
-        JPanel panelHeader = new JPanel(new GridLayout(2, 1, 5, 5));
+        PanelNubeHeader panelNube = new PanelNubeHeader();
+        panelNube.setLayout(new GridLayout(2, 1, 4, 4));
+
         lblNombreGerente = new JLabel("Bienvenido, Gerente de Línea", SwingConstants.CENTER);
-        lblNombreGerente.setFont(new Font("Arial", Font.BOLD, 16));
+        lblNombreGerente.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblNombreGerente.setForeground(new Color(40, 20, 0));
 
         lblLineaAsignada = new JLabel("Línea a Cargo: [Cargando...]", SwingConstants.CENTER);
-        lblLineaAsignada.setFont(new Font("Arial", Font.ITALIC, 14));
-        lblLineaAsignada.setForeground(new Color(230, 126, 34)); // Color naranja/gerencial descriptivo
+        lblLineaAsignada.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        lblLineaAsignada.setForeground(new Color(60, 30, 0));
 
-        panelHeader.add(lblNombreGerente);
-        panelHeader.add(lblLineaAsignada);
-        panelPrincipal.add(panelHeader, BorderLayout.NORTH);
+        panelNube.add(lblNombreGerente);
+        panelNube.add(lblLineaAsignada);
+        panelPrincipal.add(panelNube, BorderLayout.NORTH);
 
-        // --- Centro: Botones de Gestión ---
-        JPanel panelMenu = new JPanel(new GridLayout(2, 1, 15, 15));
-        panelMenu.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
+        JPanel panelMenu = new JPanel(new GridLayout(1, 2, 15, 15));
+        panelMenu.setOpaque(false);
 
-        btnBandejaEntrada = new JButton("Bandeja de Entrada (Reportes Pendientes)");
-        btnBandejaEntrada.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        btnReportesAtencion = new JButton("Reportes en Atención (En Curso)");
-        btnReportesAtencion.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBandejaEntrada = new BotonModerno("Bandeja de Entrada (Reportes Pendientes)");
+        btnReportesAtencion = new BotonModerno("Reportes en Atención (En Curso)");
 
         panelMenu.add(btnBandejaEntrada);
         panelMenu.add(btnReportesAtencion);
         panelPrincipal.add(panelMenu, BorderLayout.CENTER);
 
-        // --- Sur: Salida ---
         JPanel panelFooter = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(255, 102, 102));
-        btnCerrarSesion.setForeground(Color.WHITE);
+        panelFooter.setOpaque(false);
 
+        btnCerrarSesion = new BotonModerno("Cerrar Sesión", new Color(220, 70, 0), Color.WHITE);
         panelFooter.add(btnCerrarSesion);
         panelPrincipal.add(panelFooter, BorderLayout.SOUTH);
 
         add(panelPrincipal);
     }
 
-    // Setters dinámicos
+    //Setters para que el controlador inyecte los datos
     public void setNombreGerente(String nombre) { lblNombreGerente.setText("Bienvenido, " + nombre); }
     public void setLineaAsignada(String linea) { lblLineaAsignada.setText("Línea a Cargo: " + linea); }
 
-    // Listeners
+    //Listeners para que el contronlador maneje las acciones
     public void escucharBtnBandeja(ActionListener l) { btnBandejaEntrada.addActionListener(l); }
     public void escucharBtnAtencion(ActionListener l) { btnReportesAtencion.addActionListener(l); }
     public void escucharBtnCerrarSesion(ActionListener l) { btnCerrarSesion.addActionListener(l); }

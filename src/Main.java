@@ -1,5 +1,4 @@
-package main;
-
+import javax.swing.SwingUtilities;
 import javax.swing.SwingUtilities;
 import views.LoginView;
 
@@ -10,5 +9,4 @@ public class Main {
             login.setVisible(true);
         });
     }
-
 }
