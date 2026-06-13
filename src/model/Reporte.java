@@ -98,4 +98,11 @@ public class Reporte {
     public void setTipoInfra(TipoInfra tipoInfra) {
         this.tipoInfra = tipoInfra;
     }
+
+    public void cambiarEstado(String nuevoEstado) {
+        // Podrías agregar una pequeña validación aquí
+        if (nuevoEstado.equals("Pendiente") || nuevoEstado.equals("En Curso") || nuevoEstado.equals("Completado")) {
+            this.estado = nuevoEstado;
+        }
+    }
 }

@@ -64,8 +64,8 @@ public class HerramientasVista {
 
         comboDano.removeAllItems();
 
-        TipoDañoDAO danoDAO = new TipoDañoDAO();
-        List<TipoDaño> listaDano = danoDAO.ObtenerLosTDano();
+        TipoDañoDAO dañoDAO = new TipoDañoDAO();
+        List<TipoDaño> listaDano = dañoDAO.ObtenerLosTDaño();
 
         for(TipoDaño daño : listaDano){
             comboDano.addItem(daño);

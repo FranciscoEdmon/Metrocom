@@ -56,7 +56,7 @@ public class LineaDAO {
             
             if(rs.next()){
 
-                lineaEncontrada = new Linea(rs.getInt("id_Linea"), rs.getString("nombreLinea"), rs.getString("colorLinea"));
+                lineaEncontrada = new Linea(rs.getInt("id_linea"), rs.getString("nombreLinea"), rs.getString("colorLinea"));
 
             }
         }catch(SQLException e){

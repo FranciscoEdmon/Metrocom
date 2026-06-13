@@ -11,9 +11,9 @@ import model.TipoDaño;
 
 public class TipoDañoDAO {
 
-    public List<TipoDaño> ObtenerLosTDano (){
+    public List<TipoDaño> ObtenerLosTDaño (){
 
-        List<TipoDaño> ListaTDano = new ArrayList<>();
+        List<TipoDaño> ListaTDaño = new ArrayList<>();
 
         String sql = "SELECT * FROM tipoDaño";
 
@@ -26,15 +26,15 @@ public class TipoDañoDAO {
 
             while (rs.next()) {
 
-                TipoDaño tipoDano = new TipoDaño(rs.getInt("idTipodano"), rs.getString("nombreDano"));
-                ListaTDano.add(tipoDano);
+                TipoDaño tipoDaño = new TipoDaño(rs.getInt("idTipodano"), rs.getString("nombreDano"));
+                ListaTDaño.add(tipoDaño);
 
             }
         }catch(SQLException e){
             System.err.println("Error al obtener los tipos de daño: " + e.getMessage());
         }
 
-        return ListaTDano;
+        return ListaTDaño;
 
     }
 }
