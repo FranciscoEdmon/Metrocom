@@ -2,6 +2,8 @@ package controller;
 
 import dao.UsuarioDAO;
 import model.*;
+import views.AdminDashboardView;
+import views.JefeEstacionDashboardView;
 import views.LoginView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,18 +50,18 @@ public class LoginController {
         // Evaluamos el tipo de objeto específico que retornó el Login
         if (usuario instanceof Administrador) {
             Administrador admin = (Administrador) usuario;
-            System.out.println("Abriendo Dashboard de Administrador para: " + admin.getNombre());
-            // Aquí instanciarás tu AdminDashboardView y su controlador:
-            // AdminDashboardView view = new AdminDashboardView(admin);
-            // new AdminDashboardController(view, admin);
-            // view.setVisible(true);
-
+            // 1. Creamos la vista del Dashboard
+            AdminDashboardView dashboardVista = new AdminDashboardView();
+            // 2. Creamos su controlador pasándole la vista y el modelo del admin actual
+            new AdminDashboardController(dashboardVista, admin);
+            // 3. Lo hacemos visible
+            dashboardVista.setVisible(true);
         } else if (usuario instanceof JefeEstacion) {
             JefeEstacion jefe = (JefeEstacion) usuario;
             System.out.println("Abriendo Dashboard de Jefe de Estación en: " + jefe.getEstacionAsignada());
-            // JefeDashboardView view = new JefeDashboardView(jefe);
-            // new JefeDashboardController(view, jefe);
-            // view.setVisible(true);
+            JefeEstacionDashboardView dashboardVista = new JefeEstacionDashboardView(jefe);
+            new JefeEstacionDashboardController(dashboardVista, jefe);
+            dashboardVista.setVisible(true);
 
         } else if (usuario instanceof GerenteLinea) {
             GerenteLinea gerente = (GerenteLinea) usuario;
