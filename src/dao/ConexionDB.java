@@ -9,7 +9,7 @@ public class ConexionDB {
     // 2. Credenciales de tu base de datos (Ajusta estos textos a tu entorno)
     private static final String URL = "jdbc:mysql://localhost:3306/metrocom_db";
     private static final String USUARIO = "root";
-    private static final String PASSWORD = "Adg135z6c67adg_";
+    private static final String PASSWORD = "R9m!xT2#qL7v";
 
     // 3. Constructor privado: Evita que alguien haga "new ConexionDB()" en otro lado
     private ConexionDB() {

@@ -45,28 +45,28 @@ public class EstacionDAO {
 
     public Estacion buscarPoId(int id_busqueda){
         Estacion estacionEncontrada = null;
-        String sql = "SELECT * FROM estacion WHERE id_esatcion = ?";
+        // Corregido: id_estacion en lugar de id_esatcion
+        String sql = "SELECT * FROM estacion WHERE id_estacion = ?";
 
-        try{
-
-            Connection con = ConexionDB.getConexion();
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id_busqueda);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-
-                estacionEncontrada = new Estacion(rs.getInt("id_estacion"), rs.getString("nombreEstacion"), rs.getBoolean("trasbordo"), rs.getInt("id_linea"));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    // Corregido: transbordo en lugar de trasbordo para hacer match con tu BD
+                    estacionEncontrada = new Estacion(
+                            rs.getInt("id_estacion"),
+                            rs.getString("nombreEstacion"),
+                            rs.getBoolean("transbordo"),
+                            rs.getInt("id_linea")
+                    );
+                }
             }
-        }catch(SQLException e){
-            System.err.println("Error buscando estacio por ID: " + e.getMessage());
+        } catch(SQLException e){
+            System.err.println("Error al buscar estación por ID: " + e.getMessage());
         }
-
         return estacionEncontrada;
-
     }
 }
 

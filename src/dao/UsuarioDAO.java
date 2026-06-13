@@ -37,45 +37,39 @@ public class UsuarioDAO{
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                java.sql.Date fechaSql = rs.getDate("fechaNac");
-                LocalDate fechaNacimiento = (fechaSql != null) ? fechaSql.toLocalDate() : null;
+                LocalDate fechaNacimiento = rs.getDate("fechaNac").toLocalDate();
 
+                // 1. Es Administrador
                 if (rs.getInt("id_administrador") != 0) {
                     usuarioLogueado = new Administrador(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_administrador")
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"),
+                            rs.getString("apellidoPat"), rs.getString("apellidoMat"),
+                            rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_administrador")
                     );
-
-                }else if (rs.getInt("id_jefeDeEstacion") != 0) {
-
-                    EstacionDAO estDAO = new EstacionDAO();
-
-                    int idDeLaEstacion = rs.getInt("id_estacion");
-                    Estacion suEstacionCompleta = estDAO.buscarPoId(idDeLaEstacion);
-
-                    usuarioLogueado = new JefeEstacion(
-                        rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jefeDeEstacion"), suEstacionCompleta
-                    );
-                    
-                }else if(rs.getInt("id_gerenteDeLinea") != 0) {
-
+                }
+                // 2. Es Gerente de Línea
+                else if (rs.getInt("id_gerenteDeLinea") != 0) {
                     LineaDAO lineaDAO = new LineaDAO();
-
-                    int idDeLaLinea = rs.getInt("id_linea");
-                    Linea lineaCompleta = lineaDAO.buscarPorId(idDeLaLinea);
+                    Linea lineaCompleta = lineaDAO.buscarPorId(rs.getInt("id_linea"));
 
                     usuarioLogueado = new GerenteLinea(
-                        rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_gerenteDeLinea"), lineaCompleta
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"),
+                            rs.getString("apellidoPat"), rs.getString("apellidoMat"),
+                            rs.getString("correo"), rs.getString("contrasena"),
+                            rs.getInt("id_gerenteDeLinea"), lineaCompleta
                     );
+                }
+                // 3. Es Jefe de Estación
+                else if (rs.getInt("id_jefeDeEstacion") != 0) {
+                    EstacionDAO estacionDAO = new EstacionDAO();
+                    // Buscamos el objeto Estación completo para no dejarlo en null
+                    Estacion estacionCompleta = estacionDAO.buscarPoId(rs.getInt("id_estacion"));
 
-                
-                } else if (rs.getInt("id_jefeDeEstacion") != 0) {
                     usuarioLogueado = new JefeEstacion(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_jefeDeEstacion"), null
-                    );
-
-                } else if (rs.getInt("id_gerenteDeLinea") != 0) {
-                    usuarioLogueado = new GerenteLinea(
-                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"), rs.getString("apellidoPat"), rs.getString("apellidoMat"), rs.getString("correo"), rs.getString("contrasena"), rs.getInt("id_gerenteDeLinea"), null
+                            rs.getInt("id_usuario"), fechaNacimiento, rs.getString("nombre"),
+                            rs.getString("apellidoPat"), rs.getString("apellidoMat"),
+                            rs.getString("correo"), rs.getString("contrasena"),
+                            rs.getInt("id_jefeDeEstacion"), estacionCompleta
                     );
                 }
             }
