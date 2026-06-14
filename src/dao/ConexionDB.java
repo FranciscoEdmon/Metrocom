@@ -7,7 +7,7 @@ public class ConexionDB {
     private static Connection conexion = null;
 
     // 2. Credenciales de tu base de datos (Ajusta estos textos a tu entorno)
-    private static final String URL = "jdbc:mysql://localhost:3306/metrocom_db";
+    private static final String URL = "jdbc:mysql://localhost:3306/metrocom";
     private static final String USUARIO = "root";
     private static final String PASSWORD = "R9m!xT2#qL7v";
 
