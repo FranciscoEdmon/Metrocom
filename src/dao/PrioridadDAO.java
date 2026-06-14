@@ -6,37 +6,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Prioridad;
 
 public class PrioridadDAO {
 
-    public List<Prioridad> ObtenerLasPrioridades(){
-
+    public List<Prioridad> ObtenerLasPrioridades() {
         List<Prioridad> ListaPrioridades = new ArrayList<>();
-
         String sql = "SELECT * FROM prioridad";
 
-        try{
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            Connection con = ConexionDB.getConexion();
-            PreparedStatement ps = con.prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-            
             while (rs.next()) {
-
-                Prioridad prioridad = new Prioridad(rs.getInt("IdPrioridad"), rs.getString("criterio"));
-
-                ListaPrioridades.add(prioridad);
+                ListaPrioridades.add(new Prioridad(rs.getInt("IdPrioridad"), rs.getString("criterio")));
             }
-
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.err.println("Error al consultar los tipos de prioridad: " + e.getMessage());
         }
-
         return ListaPrioridades;
-
     }
-    
 }

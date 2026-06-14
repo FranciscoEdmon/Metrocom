@@ -7,7 +7,6 @@ import views.MisReportesView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MisReportesController {
@@ -28,15 +27,10 @@ public class MisReportesController {
     private void consultarBD() {
         vista.getModeloTabla().setRowCount(0);
 
-        // NOTA: Para implementar esto de forma estricta, puedes agregar un método en tu 'ReporteDAO'
-        // que filtre mediante: "SELECT * FROM reporte WHERE id_jefeDeEstacion = ?"
-        // Por ahora, simulamos la lectura mapeando los objetos del modelo:
-        List<Reporte> todos = new ArrayList<>();
+        // Consulta Real filtrada estrictamente por el ID de la sesión del Jefe de Estación actual
+        List<Reporte> misReportes = dao.obtenerReportesPorJefe(jefeSesion.getId_jefeDeEstacion());
 
-        // Si tu base de datos ya tiene registros, aquí consumirías el método de consulta por ID de Jefe:
-        // todos = dao.obtenerReportesPorJefe(jefeSesion.getId_jefeDeEstacion());
-
-        for (Reporte r : todos) {
+        for (Reporte r : misReportes) {
             Object[] fila = {
                     r.getId_Reporte(),
                     r.getFechaCreacion().format(formateador),
@@ -55,7 +49,7 @@ public class MisReportesController {
         public void actionPerformed(ActionEvent e) {
             String comando = e.getActionCommand();
             if (comando.equals("Sincronizar Tabla")) {
-                consultarBD();
+                consultarBD(); // Hace una petición síncrona real a MySQL para traer datos nuevos
             } else if (comando.equals("Volver")) {
                 vista.dispose();
             }

@@ -2,9 +2,11 @@ package controller;
 
 import dao.ReporteDAO;
 import model.GerenteLinea;
+import model.Reporte;
 import views.AtencionReportesView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class AtencionReportesController {
@@ -23,10 +25,21 @@ public class AtencionReportesController {
 
     private void cargarReportesEnCurso() {
         vista.getModeloTabla().setRowCount(0);
-        // Aquí consumirás el DAO para buscar por línea y estado = 'En Curso'
-        // Ejemplo visual de inserción mock:
-        Object[] filaMock = {"101", "Balderas", "Elevador", "Reemplazo de motor de puerta", "Alta"};
-        vista.getModeloTabla().addRow(filaMock);
+
+        // Consulta real a la base de datos de los reportes activos 'En Curso'
+        int idLinea = gerente.getLineaAsignada().getId_Linea();
+        List<Reporte> enCurso = dao.obtenerReportesPorLineaYEstado(idLinea, "En Curso");
+
+        for (Reporte r : enCurso) {
+            Object[] fila = {
+                    r.getId_Reporte(),
+                    r.getJefeEstacion().getEstacionAsignada().getNombreEstacion(),
+                    r.getTipoInfra().getTipoInfra(),
+                    r.getDescripcion(),
+                    r.getPrioridad().getPrioridad()
+            };
+            vista.getModeloTabla().addRow(fila);
+        }
     }
 
     private class AccionesAtencionListener implements ActionListener {
@@ -41,13 +54,17 @@ public class AtencionReportesController {
                     return;
                 }
 
-                String idReporte = vista.getTablaEnCurso().getValueAt(fila, 0).toString();
+                int idReporte = Integer.parseInt(vista.getTablaEnCurso().getValueAt(fila, 0).toString());
 
-                // NOTA TÉCNICA: Usar el mismo método agregado en ReporteDAO
-                // boolean exito = dao.actualizarEstadoReporte(Integer.parseInt(idReporte), "Completado");
+                // Actualización real en la base de datos externa
+                boolean exito = dao.actualizarEstadoReporte(idReporte, "Completado");
 
-                JOptionPane.showMessageDialog(vista, "Mantenimiento " + idReporte + " registrado como Completado.");
-                cargarReportesEnCurso();
+                if (exito) {
+                    JOptionPane.showMessageDialog(vista, "Mantenimiento " + idReporte + " registrado como Completado.");
+                    cargarReportesEnCurso(); // Refrescar componentes visuales con la BD limpia
+                } else {
+                    JOptionPane.showMessageDialog(vista, "Error al finalizar el mantenimiento en el servidor.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 
             } else if (comando.equals("Volver")) {
                 vista.dispose();
