@@ -7,15 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.TipoDaño;
+import model.TipoDano;
 
-public class TipoDañoDAO {
+public class TipoDanoDAO {
 
-    public List<TipoDaño> ObtenerLosTDaño (){
+    public List<TipoDano> ObtenerLosTDano (){
 
-        List<TipoDaño> ListaTDaño = new ArrayList<>();
+        List<TipoDano> ListaTDano = new ArrayList<>();
 
-        String sql = "SELECT * FROM tipoDaño";
+        String sql = "SELECT * FROM tipoDano";
 
         try{
 
@@ -26,15 +26,15 @@ public class TipoDañoDAO {
 
             while (rs.next()) {
 
-                TipoDaño tipoDaño = new TipoDaño(rs.getInt("idTipodano"), rs.getString("nombreDano"));
-                ListaTDaño.add(tipoDaño);
+                TipoDano tipoDano = new TipoDano(rs.getInt("idTipodano"), rs.getString("nombreDano"));
+                ListaTDano.add(tipoDano);
 
             }
         }catch(SQLException e){
             System.err.println("Error al obtener los tipos de daño: " + e.getMessage());
         }
 
-        return ListaTDaño;
+        return ListaTDano;
 
     }
 }

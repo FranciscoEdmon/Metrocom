@@ -41,7 +41,7 @@ public class MisReportesController {
                     r.getId_Reporte(),
                     r.getFechaCreacion().format(formateador),
                     r.getTipoInfra().getTipoInfra(),
-                    r.getTipoDaño().getNombreDaño(),
+                    r.getTipoDaño().getNombreDano(),
                     r.getUbicacionExacta(),
                     r.getPrioridad().getPrioridad(),
                     r.getEstado()

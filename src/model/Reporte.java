@@ -9,12 +9,12 @@ public class Reporte {
     JefeEstacion jefeEstacion;
     private Prioridad prioridad;
     private TipoInfra tipoInfra;
-    private TipoDaño tipoDanio;
+    private TipoDano tipoDanio;
 
     public Reporte(){
     }
     
-    public Reporte(int id_Reporte, String estado, String ubicacionExacta, String descripcion, LocalDateTime fechaCreacion, JefeEstacion jefeEstacion, Prioridad prioridad, TipoInfra tipoInfra, TipoDaño tipoDanio){
+    public Reporte(int id_Reporte, String estado, String ubicacionExacta, String descripcion, LocalDateTime fechaCreacion, JefeEstacion jefeEstacion, Prioridad prioridad, TipoInfra tipoInfra, TipoDano tipoDanio){
     this.id_Reporte = id_Reporte;
     this.estado = estado ;
     this.ubicacionExacta = ubicacionExacta;
@@ -55,7 +55,7 @@ public class Reporte {
         return prioridad;
     }
 
-    public TipoDaño getTipoDaño (){
+    public TipoDano getTipoDaño (){
         return tipoDanio;
     }
 
@@ -91,7 +91,7 @@ public class Reporte {
         this.prioridad = prioridad;
     }
     
-    public void setTipoDaño(TipoDaño tipoDanio) {
+    public void setTipoDaño(TipoDano tipoDanio) {
         this.tipoDanio = tipoDanio;
     }
     

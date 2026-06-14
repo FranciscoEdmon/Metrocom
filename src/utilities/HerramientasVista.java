@@ -5,12 +5,12 @@ import java.util.List;
 
 import dao.LineaDAO;
 import dao.PrioridadDAO;
-import dao.TipoDañoDAO;
+import dao.TipoDanoDAO;
 import dao.TipoInfraDAO;
 import model.Estacion;
 import model.Linea;
 import model.Prioridad;
-import model.TipoDaño;
+import model.TipoDano;
 import model.TipoInfra;
 import dao.EstacionDAO;
 
@@ -60,15 +60,15 @@ public class HerramientasVista {
     }
 
         //Herramienta para cargar los comboBox de tipo de daño
-    public static void CargarTipoDanoCombo(JComboBox<TipoDaño> comboDano){
+    public static void CargarTipoDanoCombo(JComboBox<TipoDano> comboDano){
 
         comboDano.removeAllItems();
 
-        TipoDañoDAO dañoDAO = new TipoDañoDAO();
-        List<TipoDaño> listaDano = dañoDAO.ObtenerLosTDaño();
+        TipoDanoDAO danoDAO = new TipoDanoDAO();
+        List<TipoDano> listaDano = danoDAO.ObtenerLosTDano();
 
-        for(TipoDaño daño : listaDano){
-            comboDano.addItem(daño);
+        for(TipoDano dano : listaDano){
+            comboDano.addItem(dano);
         }
     }
 

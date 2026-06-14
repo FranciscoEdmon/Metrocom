@@ -13,7 +13,7 @@ public class ReporteNuevoController {
     private ReporteDAO reporteDAO;
     private JefeEstacion jefeSesion;
 
-    public ReporteNuevoController(ReporteNuevoView vista, ReporteDAO rDAO, TipoInfraDAO iDAO, TipoDañoDAO dDAO, PrioridadDAO pDAO, JefeEstacion jefe) {
+    public ReporteNuevoController(ReporteNuevoView vista, ReporteDAO rDAO, TipoInfraDAO iDAO, TipoDanoDAO dDAO, PrioridadDAO pDAO, JefeEstacion jefe) {
         this.vista = vista;
         this.reporteDAO = rDAO;
         this.jefeSesion = jefe;
@@ -22,12 +22,12 @@ public class ReporteNuevoController {
         cargarCatalogos(iDAO, dDAO, pDAO);
     }
 
-    private void cargarCatalogos(TipoInfraDAO iDAO, TipoDañoDAO dDAO, PrioridadDAO pDAO) {
+    private void cargarCatalogos(TipoInfraDAO iDAO, TipoDanoDAO dDAO, PrioridadDAO pDAO) {
         // Carga dinámica usando los métodos nativos de tus archivos DAO
         for (TipoInfra ti : iDAO.ObetenerTodosLosTInfra()) {
             vista.agregarInfraestructura(ti);
         }
-        for (TipoDaño td : dDAO.ObtenerLosTDaño()) {
+        for (TipoDano td : dDAO.ObtenerLosTDano()) {
             vista.agregarDaño(td);
         }
         for (Prioridad p : pDAO.ObtenerLasPrioridades()) {

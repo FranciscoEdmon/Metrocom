@@ -4,12 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import model.TipoInfra;
-import model.TipoDaño;
+import model.TipoDano;
 import model.Prioridad;
 
 public class ReporteNuevoView extends JFrame {
     private JComboBox<TipoInfra> cbTipoInfra;
-    private JComboBox<TipoDaño> cbTipoDano;
+    private JComboBox<TipoDano> cbTipoDano;
     private JComboBox<Prioridad> cbPrioridad;
     private JTextField txtUbicacionExacta;
     private JTextArea txtDescripcion;
@@ -68,12 +68,12 @@ public class ReporteNuevoView extends JFrame {
 
     // Métodos para rellenar los combos desde el controlador
     public void agregarInfraestructura(TipoInfra item) { cbTipoInfra.addItem(item); }
-    public void agregarDaño(TipoDaño item) { cbTipoDano.addItem(item); }
+    public void agregarDaño(TipoDano item) { cbTipoDano.addItem(item); }
     public void agregarPrioridad(Prioridad item) { cbPrioridad.addItem(item); }
 
     // Getters de objetos seleccionados y textos
     public TipoInfra getInfraSeleccionada() { return (TipoInfra) cbTipoInfra.getSelectedItem(); }
-    public TipoDaño getDañoSeleccionado() { return (TipoDaño) cbTipoDano.getSelectedItem(); }
+    public TipoDano getDañoSeleccionado() { return (TipoDano) cbTipoDano.getSelectedItem(); }
     public Prioridad getPrioridadSeleccionada() { return (Prioridad) cbPrioridad.getSelectedItem(); }
     public String getUbicacionExacta() { return txtUbicacionExacta.getText().trim(); }
     public String getDescripcion() { return txtDescripcion.getText().trim(); }

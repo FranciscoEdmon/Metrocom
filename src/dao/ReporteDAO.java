@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import model.Estacion;
 import model.JefeEstacion;
 import model.Prioridad;
 import model.Reporte;
-import model.TipoDaño;
+import model.TipoDano;
 import model.TipoInfra;
 
     // esta funcion crea el INSERT
@@ -31,7 +30,7 @@ import model.TipoInfra;
             ps.setString(5, reporteActual.getDescripcion());
             ps.setInt(6, reporteActual.getPrioridad().getId_prioridad());
             ps.setInt(7, reporteActual.getTipoInfra().getId_infra());
-            ps.setInt(8, reporteActual.getTipoDaño().getId_TipoDaño());
+            ps.setInt(8, reporteActual.getTipoDaño().getId_TipoDano());
             
             int filasAfectadas = ps.executeUpdate();
             
@@ -59,7 +58,7 @@ import model.TipoInfra;
                     //datos de categorisacion
                     Prioridad prioridadReal = new Prioridad(rs.getInt("id_prioridad"), rs.getString("prioridad"));
                     TipoInfra infraReal = new TipoInfra(rs.getInt("id_tipoInfra"), rs.getString("tipoInfra"));
-                    TipoDaño danioReal = new TipoDaño(rs.getInt("id_tipoDanio"), rs.getString("tipoDanio"));
+                    TipoDano danioReal = new TipoDano(rs.getInt("id_tipoDanio"), rs.getString("tipoDanio"));
 
                     //datos de la estacion
                     Estacion estacionDelJefe = new Estacion(rs.getInt("id_estacion"), rs.getString("nombreEstacion"), rs.getBoolean("trasbordo"), rs.getInt("id_linea"));
@@ -129,7 +128,7 @@ import model.TipoInfra;
             ps.setString(2, reporteEditado.getDescripcion());
             ps.setInt(3, reporteEditado.getPrioridad().getId_prioridad());
             ps.setInt (4, reporteEditado.getTipoInfra().getId_infra());
-            ps.setInt(5, reporteEditado.getTipoDaño().getId_TipoDaño());
+            ps.setInt(5, reporteEditado.getTipoDaño().getId_TipoDano());
             ps.setInt(6, reporteEditado.getId_Reporte());
 
             int filasAfectadas = ps.executeUpdate();

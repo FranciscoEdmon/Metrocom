@@ -8,7 +8,7 @@ import views.LoginView;
 import dao.UsuarioDAO;
 import dao.ReporteDAO;
 import dao.TipoInfraDAO;
-import dao.TipoDañoDAO;
+import dao.TipoDanoDAO;
 import dao.PrioridadDAO;
 
 import java.awt.event.ActionEvent;
@@ -34,10 +34,10 @@ public class JefeEstacionDashboardController {
                 ReporteNuevoView vistaNuevo = new ReporteNuevoView();
                 ReporteDAO rDAO = new ReporteDAO();
                 TipoInfraDAO infraDAO = new TipoInfraDAO();
-                TipoDañoDAO dañoDAO = new TipoDañoDAO();
+                TipoDanoDAO danoDAO = new TipoDanoDAO();
                 PrioridadDAO prioDAO = new PrioridadDAO();
 
-                new ReporteNuevoController(vistaNuevo, rDAO, infraDAO, dañoDAO, prioDAO, jefeSesion);
+                new ReporteNuevoController(vistaNuevo, rDAO, infraDAO, danoDAO, prioDAO, jefeSesion);
                 vistaNuevo.setVisible(true);
 
             } else if (comando.equals("Ver Mis Reportes Enviados")) {
