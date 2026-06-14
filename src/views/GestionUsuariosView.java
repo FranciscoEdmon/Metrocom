@@ -31,7 +31,7 @@ public class GestionUsuariosView extends JFrame {
         txtCorreo = new JTextField();
         txtContrasena = new JPasswordField();
 
-        String[] roles = {"Administrador", "Jefe de Estación", "Gerente de Línea"};
+        String[] roles = {"Jefe de Estación", "Gerente de Línea"};
         cbRol = new JComboBox<>(roles);
 
         panelForm.add(new JLabel("ID de Sistema:")); panelForm.add(txtId);
