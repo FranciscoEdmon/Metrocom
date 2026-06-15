@@ -1,8 +1,10 @@
 package controller;
 
 import dao.LineaDAO;
+import dao.EstacionDAO; // Agregamos la importación del DAO
 import model.Linea;
 import views.GestionLineasView;
+import views.GestionEstacionesView; // Agregamos la importación de la Vista
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -74,6 +76,17 @@ public class GestionLineasController {
 
             } else if (comando.equals("Volver al Panel")) {
                 vista.dispose();
+
+            } else if (comando.equals("Ver Estaciones →")) {
+                if (vista.getIdLinea().isEmpty()) {
+                    vista.mostrarMensaje("Por favor, seleccione una línea de la tabla para ver sus estaciones.");
+                    return;
+                }
+                int idLineaSeleccionada = Integer.parseInt(vista.getIdLinea());
+                GestionEstacionesView vistaEstaciones = new GestionEstacionesView();
+                EstacionDAO estacionDAO = new EstacionDAO();
+                new GestionEstacionesController(vistaEstaciones, estacionDAO, idLineaSeleccionada);
+                vistaEstaciones.setVisible(true);
             }
         }
     }
