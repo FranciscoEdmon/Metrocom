@@ -28,7 +28,7 @@ public class BandejaEntradaController {
     private void cargarReportesPendientes() {
         vista.getModeloTabla().setRowCount(0);
 
-        // Consulta real filtrando por la línea asignada al gerente y estado 'Pendiente'
+        // Consulta para el filtrando por la línea asignada al gerente y estado 'Pendiente'
         int idLinea = gerente.getLineaAsignada().getId_Linea();
         List<Reporte> pendientes = dao.obtenerReportesPorLineaYEstado(idLinea, "Pendiente");
 
@@ -59,7 +59,7 @@ public class BandejaEntradaController {
 
                 int idReporte = Integer.parseInt(vista.getTablaPendientes().getValueAt(fila, 0).toString());
 
-                // Actualización real en la Base de Datos
+                // Actualización en la Base de Datos
                 boolean exito = dao.actualizarEstadoReporte(idReporte, "En Curso");
 
                 if (exito) {

@@ -12,10 +12,10 @@ public class ConexionDB {
     private ConexionDB() {}
     public static Connection getConexion() throws SQLException {
         try {
-            // Mantenemos tu validación del Driver
+            // Mantengo la validación del driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Establecemos la conexión al vuelo
+            // Establezco la conexion de vuelo
             Connection conn = DriverManager.getConnection(URL, USUARIO, PASSWORD);
             System.out.println("Conexión a la base de datos establecida con éxito."); // Opcional: verás muchos logs
             return conn;

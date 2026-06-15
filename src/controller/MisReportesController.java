@@ -27,7 +27,7 @@ public class MisReportesController {
     private void consultarBD() {
         vista.getModeloTabla().setRowCount(0);
 
-        // Consulta Real filtrada estrictamente por el ID de la sesión del Jefe de Estación actual
+        // Consulta para un filtrado por el ID de la sesión del Jefe de Estación actual
         List<Reporte> misReportes = dao.obtenerReportesPorJefe(jefeSesion.getId_jefeDeEstacion());
 
         for (Reporte r : misReportes) {

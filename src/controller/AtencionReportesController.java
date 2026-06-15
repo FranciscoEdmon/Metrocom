@@ -26,7 +26,7 @@ public class AtencionReportesController {
     private void cargarReportesEnCurso() {
         vista.getModeloTabla().setRowCount(0);
 
-        // Consulta real a la base de datos de los reportes activos 'En Curso'
+        // Consulta a la base de datos de los reportes activos 'En Curso'
         int idLinea = gerente.getLineaAsignada().getId_Linea();
         List<Reporte> enCurso = dao.obtenerReportesPorLineaYEstado(idLinea, "En Curso");
 
@@ -56,7 +56,7 @@ public class AtencionReportesController {
 
                 int idReporte = Integer.parseInt(vista.getTablaEnCurso().getValueAt(fila, 0).toString());
 
-                // Actualización real en la base de datos externa
+                // Actualización en la base de datos
                 boolean exito = dao.actualizarEstadoReporte(idReporte, "Completado");
 
                 if (exito) {

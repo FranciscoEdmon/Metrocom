@@ -18,7 +18,6 @@ public class AdminDashboardController {
     private LineaDAO lineaDAO;
     private EstacionDAO estacionDAO;
 
-    // CORRECCIÓN: El constructor ahora acepta y almacena todas las dependencias compartidas
     public AdminDashboardController(AdminDashboardView vista, Administrador admin, UsuarioDAO uDAO, LineaDAO lDAO, EstacionDAO eDAO) {
         this.vista = vista;
         this.adminLogueado = admin;
@@ -26,26 +25,26 @@ public class AdminDashboardController {
         this.lineaDAO = lDAO;
         this.estacionDAO = eDAO;
 
-        // Personalizar la vista con los datos del modelo
+        // Personalizo la vista con los datos del modelo
         this.vista.setNombreAdministrador(adminLogueado.getNombre() + " " + adminLogueado.getApellidoPat());
 
-        // Vincular los eventos de los botones
+        // Con estos de aqui vinculo los eventos de los botones
         this.vista.addGestionarLineasListener(new LineasButtonListener());
         this.vista.addGestionarUsuariosListener(new UsuariosButtonListener());
         this.vista.addCerrarSesionListener(new CerrarSesionButtonListener());
     }
 
-    // Escuchador para abrir la gestión de líneas
+    // Este es un listener para abrir la gestión de líneas
     private class LineasButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             GestionLineasView vistaLineas = new GestionLineasView();
-            new GestionLineasController(vistaLineas, lineaDAO);
+            new GestionLineasController(vistaLineas, lineaDAO, estacionDAO);
             vistaLineas.setVisible(true);
         }
     }
 
-    // Escuchador para abrir la gestión de usuarios
+    // Este es un listener para abrir la gestión de usuarios
     private class UsuariosButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -57,7 +56,7 @@ public class AdminDashboardController {
         }
     }
 
-    // Escuchador para regresar al Login
+    // Otro listener para regresar al Login
     private class CerrarSesionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

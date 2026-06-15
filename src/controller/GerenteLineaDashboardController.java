@@ -42,10 +42,7 @@ public class GerenteLineaDashboardController {
             } else if (comando.equals("Cerrar Sesión")) {
                 vista.dispose();
                 LoginView loginVista = new LoginView();
-
-                // CORRECCIÓN: Ahora le pasamos los 4 argumentos que exige el LoginController
                 new LoginController(loginVista, new UsuarioDAO(), new LineaDAO(), new EstacionDAO());
-
                 loginVista.setVisible(true);
             }
         }

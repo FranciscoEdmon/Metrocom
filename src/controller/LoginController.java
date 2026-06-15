@@ -34,13 +34,11 @@ public class LoginController {
         public void actionPerformed(ActionEvent e) {
             String correo = vista.getCorreo();
             String contrasena = vista.getContrasena();
-
             // Validación simple antes de ir a la base de datos
             if (correo.isEmpty() || contrasena.isEmpty()) {
                 vista.mostrarMensajeError("Por favor, rellene todos los campos.");
                 return;
             }
-
             // Consultamos al DAO para verificar credenciales
             Usuario usuarioLogueado = dao.validarLogin(correo, contrasena);
 
@@ -59,14 +57,13 @@ public class LoginController {
         if (usuario instanceof Administrador) {
             Administrador admin = (Administrador) usuario;
 
-            // 1. Creamos la vista del Dashboard
+            // Primero creamos la vista del Dashboard
             AdminDashboardView dashboardVista = new AdminDashboardView();
 
-            // 2. Creamos su controlador pasándole la vista, el modelo del admin
-            // y además los DAOs necesarios para cuando abra la gestión de usuarios u otras ventanas
+            // Despues creo su controlador pasándole la vista, el modelo del admin y además los DAOs necesarios para cuando abra la gestión de usuarios u otras ventanas
             new AdminDashboardController(dashboardVista, admin, dao, lineaDAO, estacionDAO);
 
-            // 3. Lo hacemos visible
+            // Y por ultimo lo hago visible
             dashboardVista.setVisible(true);
 
         } else if (usuario instanceof JefeEstacion) {

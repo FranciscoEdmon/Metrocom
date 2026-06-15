@@ -23,7 +23,7 @@ public class ReporteNuevoController {
     }
 
     private void cargarCatalogos(TipoInfraDAO iDAO, TipoDanoDAO dDAO, PrioridadDAO pDAO) {
-        // Carga dinámica usando los métodos nativos de tus archivos DAO
+        // Carga dinámica usando los métodos nativos de los DAO
         for (TipoInfra ti : iDAO.ObetenerTodosLosTInfra()) {
             vista.agregarInfraestructura(ti);
         }
@@ -49,7 +49,7 @@ public class ReporteNuevoController {
                 // Armar entidad completa respetando el constructor del modelo 'Reporte'
                 Reporte nuevoReporte = new Reporte(
                         0,
-                        "Pendiente", // Estado por defecto asignado por reglas de negocio
+                        "Pendiente", //Con este le pongo un estado por defecto
                         vista.getUbicacionExacta(),
                         vista.getDescripcion(),
                         LocalDateTime.now(),

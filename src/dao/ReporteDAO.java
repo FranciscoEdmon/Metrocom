@@ -16,9 +16,8 @@ import model.TipoInfra;
 
 public class ReporteDAO {
 
-    // esta funcion crea el INSERT
+    // Esta funcion crea el INSERT
     public boolean registrarReporte(Reporte reporteActual) {
-        // CORREGIDO: Al final se cambió id_tipoDanio por id_tipoDano
         String sql = "INSERT INTO reporte (fechaCreacion, id_jefeDeEstacion, estado, ubicacionExacta, descripcion, id_prioridad, id_tipoInfra, id_tipoDano) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionDB.getConexion();
@@ -41,10 +40,9 @@ public class ReporteDAO {
         }
     }
 
-    // esta funcion crea el READ GENERAL
+    // Esta funcion crea el READ GENERAL
     public List<Reporte> obtenerTodosLosReportes() {
         List<Reporte> listaReportes = new ArrayList<>();
-        // CORREGIDO: p.IdPrioridad -> p.id_prioridad
         String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
                 "FROM reporte r " +
                 "INNER JOIN prioridad p ON r.id_prioridad = p.id_prioridad " +
@@ -67,10 +65,9 @@ public class ReporteDAO {
         return listaReportes;
     }
 
-    // NUEVO: Filtra por línea y estado (Para BandejaEntrada y AtencionReportes)
+    // Filtra por línea y estado (Para BandejaEntrada y AtencionReportes)
     public List<Reporte> obtenerReportesPorLineaYEstado(int idLinea, String estado) {
         List<Reporte> listaReportes = new ArrayList<>();
-        // CORREGIDO: p.IdPrioridad -> p.id_prioridad
         String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
                 "FROM reporte r " +
                 "INNER JOIN prioridad p ON r.id_prioridad = p.id_prioridad " +
@@ -98,10 +95,9 @@ public class ReporteDAO {
         return listaReportes;
     }
 
-    // NUEVO: Filtra reportes del jefe que los creó (Para MisReportes)
+    // Filtra reportes del jefe que los creó (Para MisReportes)
     public List<Reporte> obtenerReportesPorJefe(int idJefeDeEstacion) {
         List<Reporte> listaReportes = new ArrayList<>();
-        // CORREGIDO: p.id_prioridad y td.id_tipoDano unificados completamente en minúsculas
         String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, " +
                 "j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, " +
                 "u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
@@ -130,7 +126,7 @@ public class ReporteDAO {
         return listaReportes;
     }
 
-    // Método de apoyo para no repetir código al armar el objeto
+    // Método de apoyo para no repetir código al mapear un ResultSet a un objeto Reporte (DRY)
     private Reporte mapearReporte(ResultSet rs) throws SQLException {
         Prioridad prioridadReal = new Prioridad(rs.getInt("id_prioridad"), rs.getString("prioridad"));
         TipoInfra infraReal = new TipoInfra(rs.getInt("id_tipoInfra"), rs.getString("tipoInfra"));
@@ -177,9 +173,8 @@ public class ReporteDAO {
         }
     }
 
-    // funcion para hacer el UPDATE del reporte completo(para el jefe de estacion).
+    // Funcion para hacer el UPDATE del reporte completo(para el jefe de estacion).
     public boolean actualizarReporteCompleto(Reporte reporteEditado) {
-        // CORREGIDO: id_tipoDanio = ? -> id_tipoDano = ?
         String sql = "UPDATE reporte SET ubicacionExacta = ?, descripcion = ?, id_prioridad = ?, id_tipoInfra = ?, id_tipoDano = ? WHERE id_reporte = ?";
 
         try(Connection con = ConexionDB.getConexion();

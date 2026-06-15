@@ -24,11 +24,11 @@ public class GestionUsuariosController {
         this.lineaDAO = lDAO;
         this.estacionDAO = eDAO;
 
-        // 1. Carga inicial de datos desde la base de datos
+        // Primero hago una carga inicial de datos desde la base de datos
         cargarLineas();
         cargarListaDeUsuarios();
 
-        // 2. Configuración de los escuchadores de eventos
+        // Despues configuro los listeners de eventos
         this.vista.addListeners(new BotonesHandler(), new FilaSeleccionadaHandler(), new LineaComboHandler());
     }
 
@@ -85,7 +85,7 @@ public class GestionUsuariosController {
     private class LineaComboHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Se dispara cada vez que el usuario elige una línea diferente en el ComboBox
+            // Este se dispara cada vez que el usuario elige una línea diferente en el ComboBox
             actualizarEstaciones();
         }
     }

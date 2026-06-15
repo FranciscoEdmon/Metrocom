@@ -29,6 +29,39 @@ public class LineaDAO {
         return listaDeLineas;
     }
 
+    public boolean registrarLinea(Linea linea) {
+        String sql = "INSERT INTO linea (nombreLinea, colorLinea) VALUES (?, ?)";
+
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, linea.getNombreLinea());
+            ps.setString(2, linea.getColorLinea());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al registrar línea: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualizarLinea(Linea linea) {
+        String sql = "UPDATE linea SET nombreLinea = ?, colorLinea = ? WHERE id_linea = ?";
+
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, linea.getNombreLinea());
+            ps.setString(2, linea.getColorLinea());
+            ps.setInt(3, linea.getId_Linea());
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar línea: " + e.getMessage());
+            return false;
+        }
+    }
+
     public Linea buscarPorId(int id_busqueda) {
         Linea lineaEncontrada = null;
         String sql = "SELECT * FROM linea WHERE id_linea = ?";

@@ -21,10 +21,10 @@ public class GestionEstacionesController {
         this.dao = dao;
         this.idLineaContexto = idLineaContexto;
 
-        // Inyectar el ID de la línea en el formulario visual
+        // Aqui se inyecta el ID de la línea en el formulario visual
         this.vista.setIdLinea(String.valueOf(idLineaContexto));
 
-        // Escuchadores
+        // Vinculación de eventos
         this.vista.addListeners(new BotonesListener(), new TablaClickListener());
 
         // Carga inicial
@@ -33,7 +33,7 @@ public class GestionEstacionesController {
 
     private void actualizarTabla() {
         vista.getModeloTabla().setRowCount(0);
-        // Filtrado automático usando tu método de EstacionDAO
+        // Filtrado automático usando el ID de línea en el DAO
         List<Estacion> lista = dao.obtenerEstacionesPorLinea(idLineaContexto);
 
         for (Estacion e : lista) {

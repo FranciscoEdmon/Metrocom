@@ -114,7 +114,6 @@ public class UsuarioDAO {
         return lista;
     }
 
-    // CORRECCIÓN: Se añaden parámetros para la fecha de nacimiento, id de linea e id de estacion
     public boolean registrarUsuarioFormulario(String nom, String pat, String mat, String correo, String pass, String rol, LocalDate fechaNac, int idLinea, int idEstacion) {
         String sqlUsuario = "INSERT INTO usuarios (nombre, apellidoPat, apellidoMat, correo, contrasena, fechaNac) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -170,7 +169,6 @@ public class UsuarioDAO {
         }
     }
 
-    // CORRECCIÓN: Modificado para también permitir actualizar la fecha de nacimiento si se desea
     public boolean actualizarUsuarioFormulario(int id, String nom, String pat, String mat, String correo, String rol, LocalDate fechaNac) {
         String sql = "UPDATE usuarios SET nombre = ?, apellidoPat = ?, apellidoMat = ?, correo = ?, fechaNac = ? WHERE id_usuario = ?";
         try (Connection con = ConexionDB.getConexion();
