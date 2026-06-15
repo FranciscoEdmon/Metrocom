@@ -1,8 +1,11 @@
 package controller;
 
 import dao.UsuarioDAO;
+import dao.LineaDAO;       // Importación agregada
+import dao.EstacionDAO;    // Importación agregada
 import model.*;
 import views.AdminDashboardView;
+import views.GerenteLineaDashboardView;
 import views.JefeEstacionDashboardView;
 import views.LoginView;
 import java.awt.event.ActionEvent;
@@ -11,10 +14,15 @@ import java.awt.event.ActionListener;
 public class LoginController {
     private LoginView vista;
     private UsuarioDAO dao;
+    private LineaDAO lineaDAO;       // Atributo agregado
+    private EstacionDAO estacionDAO; // Atributo agregado
 
-    public LoginController(LoginView vista, UsuarioDAO dao) {
+    // Constructor actualizado para recibir todas las dependencias desde el Main
+    public LoginController(LoginView vista, UsuarioDAO dao, LineaDAO lineaDAO, EstacionDAO estacionDAO) {
         this.vista = vista;
         this.dao = dao;
+        this.lineaDAO = lineaDAO;
+        this.estacionDAO = estacionDAO;
 
         // Le decimos a la vista que nosotros manejaremos el evento del botón
         this.vista.addLoginListener(new LoginButtonListener());
@@ -50,12 +58,17 @@ public class LoginController {
         // Evaluamos el tipo de objeto específico que retornó el Login
         if (usuario instanceof Administrador) {
             Administrador admin = (Administrador) usuario;
+
             // 1. Creamos la vista del Dashboard
             AdminDashboardView dashboardVista = new AdminDashboardView();
-            // 2. Creamos su controlador pasándole la vista y el modelo del admin actual
-            new AdminDashboardController(dashboardVista, admin);
+
+            // 2. Creamos su controlador pasándole la vista, el modelo del admin
+            // y además los DAOs necesarios para cuando abra la gestión de usuarios u otras ventanas
+            new AdminDashboardController(dashboardVista, admin, dao, lineaDAO, estacionDAO);
+
             // 3. Lo hacemos visible
             dashboardVista.setVisible(true);
+
         } else if (usuario instanceof JefeEstacion) {
             JefeEstacion jefe = (JefeEstacion) usuario;
             System.out.println("Abriendo Dashboard de Jefe de Estación en: " + jefe.getEstacionAsignada());
@@ -66,9 +79,9 @@ public class LoginController {
         } else if (usuario instanceof GerenteLinea) {
             GerenteLinea gerente = (GerenteLinea) usuario;
             System.out.println("Abriendo Dashboard de Gerente para la Línea: " + gerente.getLineaAsignada());
-            // GerenteDashboardView view = new GerenteDashboardView(gerente);
-            // new GerenteDashboardController(view, gerente);
-            // view.setVisible(true);
+            GerenteLineaDashboardView view = new GerenteLineaDashboardView(gerente);
+            new GerenteLineaDashboardController(view, gerente);
+            view.setVisible(true);
         }
     }
 }

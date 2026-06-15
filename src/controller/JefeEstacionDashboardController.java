@@ -6,6 +6,8 @@ import views.ReporteNuevoView;
 import views.MisReportesView;
 import views.LoginView;
 import dao.UsuarioDAO;
+import dao.LineaDAO;       // IMPORTANTE: Agregado
+import dao.EstacionDAO;    // IMPORTANTE: Agregado
 import dao.ReporteDAO;
 import dao.TipoInfraDAO;
 import dao.TipoDanoDAO;
@@ -30,7 +32,6 @@ public class JefeEstacionDashboardController {
             String comando = e.getActionCommand();
 
             if (comando.equals("Reportar Nueva Falla / Incidente")) {
-                // Instanciar componentes del sub-módulo Reporte Nuevo
                 ReporteNuevoView vistaNuevo = new ReporteNuevoView();
                 ReporteDAO rDAO = new ReporteDAO();
                 TipoInfraDAO infraDAO = new TipoInfraDAO();
@@ -41,7 +42,6 @@ public class JefeEstacionDashboardController {
                 vistaNuevo.setVisible(true);
 
             } else if (comando.equals("Ver Mis Reportes Enviados")) {
-                // Instanciar componentes del sub-módulo Mis Reportes
                 MisReportesView vistaMisReportes = new MisReportesView();
                 ReporteDAO rDAO = new ReporteDAO();
 
@@ -51,7 +51,8 @@ public class JefeEstacionDashboardController {
             } else if (comando.equals("Cerrar Sesión")) {
                 vista.dispose();
                 LoginView loginVista = new LoginView();
-                new LoginController(loginVista, new UsuarioDAO());
+                // CORRECCIÓN: Ahora le pasamos los 4 argumentos que pide el LoginController
+                new LoginController(loginVista, new UsuarioDAO(), new LineaDAO(), new EstacionDAO());
                 loginVista.setVisible(true);
             }
         }

@@ -19,7 +19,7 @@ public class PrioridadDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                ListaPrioridades.add(new Prioridad(rs.getInt("IdPrioridad"), rs.getString("criterio")));
+                ListaPrioridades.add(new Prioridad(rs.getInt("id_prioridad"), rs.getString("criterio")));
             }
         } catch (SQLException e) {
             System.err.println("Error al consultar los tipos de prioridad: " + e.getMessage());

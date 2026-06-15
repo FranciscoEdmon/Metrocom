@@ -114,7 +114,8 @@ public class UsuarioDAO {
         return lista;
     }
 
-    public boolean registrarUsuarioFormulario(String nom, String pat, String mat, String correo, String pass, String rol) {
+    // CORRECCIÓN: Se añaden parámetros para la fecha de nacimiento, id de linea e id de estacion
+    public boolean registrarUsuarioFormulario(String nom, String pat, String mat, String correo, String pass, String rol, LocalDate fechaNac, int idLinea, int idEstacion) {
         String sqlUsuario = "INSERT INTO usuarios (nombre, apellidoPat, apellidoMat, correo, contrasena, fechaNac) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionDB.getConexion();
@@ -125,14 +126,15 @@ public class UsuarioDAO {
             ps.setString(3, mat);
             ps.setString(4, correo);
             ps.setString(5, pass);
-            ps.setDate(6, java.sql.Date.valueOf(LocalDate.now())); // Fecha por defecto
+            // CORRECCIÓN: Insertamos la fecha dinámica en lugar de LocalDate.now()
+            ps.setDate(6, java.sql.Date.valueOf(fechaNac));
 
             int afectadas = ps.executeUpdate();
             if (afectadas > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     int idGenerado = rs.getInt(1);
-                    return insertarRolEspecifico(con, idGenerado, rol);
+                    return insertarRolEspecifico(con, idGenerado, rol, idLinea, idEstacion);
                 }
             }
         } catch (SQLException e) {
@@ -141,26 +143,36 @@ public class UsuarioDAO {
         return false;
     }
 
-    private boolean insertarRolEspecifico(Connection con, int idUsuario, String rol) throws SQLException {
+    // CORRECCIÓN: El método ahora recibe y procesa el idLinea e idEstacion
+    private boolean insertarRolEspecifico(Connection con, int idUsuario, String rol, int idLinea, int idEstacion) throws SQLException {
         String sql = "";
         if (rol.equals("Administrador")) {
             sql = "INSERT INTO administrador (id_usuario) VALUES (?)";
         } else if (rol.equals("Jefe de Estación")) {
-            sql = "INSERT INTO jefeDeEstacion (id_usuario, id_estacion) VALUES (?, 1)"; // Estacion 1 por defecto, se debe ajustar luego
+            sql = "INSERT INTO jefeDeEstacion (id_usuario, id_estacion) VALUES (?, ?)";
         } else if (rol.equals("Gerente de Línea")) {
-            sql = "INSERT INTO gerenteDeLinea (id_usuario, id_linea) VALUES (?, 1)"; // Linea 1 por defecto
+            sql = "INSERT INTO gerenteDeLinea (id_usuario, id_linea) VALUES (?, ?)";
         } else {
             return true; // Sin rol especifico
         }
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
+
+            // Asignar dinámicamente los parámetros dependiendo del rol
+            if (rol.equals("Jefe de Estación")) {
+                ps.setInt(2, idEstacion);
+            } else if (rol.equals("Gerente de Línea")) {
+                ps.setInt(2, idLinea);
+            }
+
             return ps.executeUpdate() > 0;
         }
     }
 
-    public boolean actualizarUsuarioFormulario(int id, String nom, String pat, String mat, String correo, String rol) {
-        String sql = "UPDATE usuarios SET nombre = ?, apellidoPat = ?, apellidoMat = ?, correo = ? WHERE id_usuario = ?";
+    // CORRECCIÓN: Modificado para también permitir actualizar la fecha de nacimiento si se desea
+    public boolean actualizarUsuarioFormulario(int id, String nom, String pat, String mat, String correo, String rol, LocalDate fechaNac) {
+        String sql = "UPDATE usuarios SET nombre = ?, apellidoPat = ?, apellidoMat = ?, correo = ?, fechaNac = ? WHERE id_usuario = ?";
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -168,7 +180,8 @@ public class UsuarioDAO {
             ps.setString(2, pat);
             ps.setString(3, mat);
             ps.setString(4, correo);
-            ps.setInt(5, id);
+            ps.setDate(5, java.sql.Date.valueOf(fechaNac));
+            ps.setInt(6, id);
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

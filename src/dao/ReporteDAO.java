@@ -18,7 +18,8 @@ public class ReporteDAO {
 
     // esta funcion crea el INSERT
     public boolean registrarReporte(Reporte reporteActual) {
-        String sql = "INSERT INTO reporte (fechaCreacion, id_jefeDeEstacion, estado, ubicacionExacta, descripcion, id_prioridad, id_tipoInfra, id_tipoDanio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // CORREGIDO: Al final se cambió id_tipoDanio por id_tipoDano
+        String sql = "INSERT INTO reporte (fechaCreacion, id_jefeDeEstacion, estado, ubicacionExacta, descripcion, id_prioridad, id_tipoInfra, id_tipoDano) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -43,12 +44,12 @@ public class ReporteDAO {
     // esta funcion crea el READ GENERAL
     public List<Reporte> obtenerTodosLosReportes() {
         List<Reporte> listaReportes = new ArrayList<>();
-        // CORREGIDO: rid_idtipoDanio a r.id_tipoDanio
-        String sql = "SELECT r.*, p.prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
+        // CORREGIDO: p.IdPrioridad -> p.id_prioridad
+        String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
                 "FROM reporte r " +
                 "INNER JOIN prioridad p ON r.id_prioridad = p.id_prioridad " +
                 "INNER JOIN tipoInfra ti ON r.id_tipoInfra = ti.id_tipoInfra " +
-                "INNER JOIN tipoDano td ON r.id_tipoDanio = td.id_tipoDano " +
+                "INNER JOIN tipoDano td ON r.id_tipoDano = td.id_tipoDano " +
                 "INNER JOIN jefeDeEstacion j ON r.id_jefeDeEstacion = j.id_jefeDeEstacion " +
                 "INNER JOIN usuarios u ON j.id_usuario = u.id_usuario " +
                 "INNER JOIN estacion e ON j.id_estacion = e.id_estacion";
@@ -69,11 +70,12 @@ public class ReporteDAO {
     // NUEVO: Filtra por línea y estado (Para BandejaEntrada y AtencionReportes)
     public List<Reporte> obtenerReportesPorLineaYEstado(int idLinea, String estado) {
         List<Reporte> listaReportes = new ArrayList<>();
-        String sql = "SELECT r.*, p.prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
+        // CORREGIDO: p.IdPrioridad -> p.id_prioridad
+        String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
                 "FROM reporte r " +
                 "INNER JOIN prioridad p ON r.id_prioridad = p.id_prioridad " +
                 "INNER JOIN tipoInfra ti ON r.id_tipoInfra = ti.id_tipoInfra " +
-                "INNER JOIN tipoDano td ON r.id_tipoDanio = td.id_tipoDano " +
+                "INNER JOIN tipoDano td ON r.id_tipoDano = td.id_tipoDano " +
                 "INNER JOIN jefeDeEstacion j ON r.id_jefeDeEstacion = j.id_jefeDeEstacion " +
                 "INNER JOIN usuarios u ON j.id_usuario = u.id_usuario " +
                 "INNER JOIN estacion e ON j.id_estacion = e.id_estacion " +
@@ -99,11 +101,14 @@ public class ReporteDAO {
     // NUEVO: Filtra reportes del jefe que los creó (Para MisReportes)
     public List<Reporte> obtenerReportesPorJefe(int idJefeDeEstacion) {
         List<Reporte> listaReportes = new ArrayList<>();
-        String sql = "SELECT r.*, p.prioridad, ti.tipoInfra, td.nombreDano, j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
+        // CORREGIDO: p.id_prioridad y td.id_tipoDano unificados completamente en minúsculas
+        String sql = "SELECT r.*, p.criterio AS prioridad, ti.tipoInfra, td.nombreDano, " +
+                "j.id_usuario, j.id_estacion, u.nombre, u.apellidoPat, u.apellidoMat, " +
+                "u.correo, u.contrasena, u.fechaNac, e.nombreEstacion, e.transbordo, e.id_linea " +
                 "FROM reporte r " +
                 "INNER JOIN prioridad p ON r.id_prioridad = p.id_prioridad " +
                 "INNER JOIN tipoInfra ti ON r.id_tipoInfra = ti.id_tipoInfra " +
-                "INNER JOIN tipoDano td ON r.id_tipoDanio = td.id_tipoDano " +
+                "INNER JOIN tipoDano td ON r.id_tipoDano = td.id_tipoDano " +
                 "INNER JOIN jefeDeEstacion j ON r.id_jefeDeEstacion = j.id_jefeDeEstacion " +
                 "INNER JOIN usuarios u ON j.id_usuario = u.id_usuario " +
                 "INNER JOIN estacion e ON j.id_estacion = e.id_estacion " +
@@ -129,7 +134,7 @@ public class ReporteDAO {
     private Reporte mapearReporte(ResultSet rs) throws SQLException {
         Prioridad prioridadReal = new Prioridad(rs.getInt("id_prioridad"), rs.getString("prioridad"));
         TipoInfra infraReal = new TipoInfra(rs.getInt("id_tipoInfra"), rs.getString("tipoInfra"));
-        TipoDano danioReal = new TipoDano(rs.getInt("id_tipoDanio"), rs.getString("nombreDano"));
+        TipoDano danioReal = new TipoDano(rs.getInt("id_tipoDano"), rs.getString("nombreDano"));
 
         Estacion estacionDelJefe = new Estacion(rs.getInt("id_estacion"), rs.getString("nombreEstacion"), rs.getBoolean("transbordo"), rs.getInt("id_linea"));
         java.time.LocalDate fechaNacimiento = rs.getDate("fechaNac") != null ? rs.getDate("fechaNac").toLocalDate() : java.time.LocalDate.now();
@@ -157,7 +162,6 @@ public class ReporteDAO {
         }
     }
 
-    // CORREGIDO: "DELATE" a "DELETE"
     public boolean borrarReporte(int id_reporte) {
         String sql = "DELETE FROM reporte WHERE id_reporte = ?";
 
@@ -175,7 +179,8 @@ public class ReporteDAO {
 
     // funcion para hacer el UPDATE del reporte completo(para el jefe de estacion).
     public boolean actualizarReporteCompleto(Reporte reporteEditado) {
-        String sql = "UPDATE reporte SET ubicacionExacta = ?, descripcion = ?, id_prioridad = ?, id_tipoInfra = ?, id_tipoDanio = ? WHERE id_reporte = ?";
+        // CORREGIDO: id_tipoDanio = ? -> id_tipoDano = ?
+        String sql = "UPDATE reporte SET ubicacionExacta = ?, descripcion = ?, id_prioridad = ?, id_tipoInfra = ?, id_tipoDano = ? WHERE id_reporte = ?";
 
         try(Connection con = ConexionDB.getConexion();
             PreparedStatement ps = con.prepareStatement(sql)) {

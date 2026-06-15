@@ -2,6 +2,8 @@ package controller;
 
 import dao.ReporteDAO;
 import dao.UsuarioDAO;
+import dao.LineaDAO;       // IMPORTANTE: Agregado
+import dao.EstacionDAO;    // IMPORTANTE: Agregado
 import model.GerenteLinea;
 import views.GerenteLineaDashboardView;
 import views.BandejaEntradaView;
@@ -40,7 +42,10 @@ public class GerenteLineaDashboardController {
             } else if (comando.equals("Cerrar Sesión")) {
                 vista.dispose();
                 LoginView loginVista = new LoginView();
-                new LoginController(loginVista, new UsuarioDAO());
+
+                // CORRECCIÓN: Ahora le pasamos los 4 argumentos que exige el LoginController
+                new LoginController(loginVista, new UsuarioDAO(), new LineaDAO(), new EstacionDAO());
+
                 loginVista.setVisible(true);
             }
         }
