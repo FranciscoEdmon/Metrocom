@@ -82,15 +82,23 @@ public class GestionLineasController {
                     return;
                 }
                 int id = Integer.parseInt(vista.getIdLinea());
-                // dao.eliminarLinea(id); // Pendiente de implementar en LineaDAO
-                vista.mostrarMensaje("Línea eliminada.");
-                actualizarTablaLineas();
-                vista.limpiarFormulario();
+                int confirm = JOptionPane.showConfirmDialog(vista,
+                        "¿Está seguro de eliminar la línea con ID: " + id + "?\nEsto eliminará también sus estaciones asociadas.",
+                        "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    if (lineaDAO.eliminarLinea(id)) {
+                        vista.mostrarMensaje("Línea eliminada correctamente.");
+                        actualizarTablaLineas();
+                        vista.limpiarFormulario();
+                    } else {
+                        vista.mostrarMensaje("Error al eliminar la línea. Intente de nuevo.");
+                    }
+                }
 
             } else if (comando.equals("Volver al Panel")) {
                 vista.dispose();
 
-            } else if (comando.equals("Ver Estaciones")) {
+            } else if (comando.equals("Ver Estaciones →")) {
                 if (vista.getIdLinea().isEmpty()) {
                     vista.mostrarMensaje("Seleccione una línea de la tabla para ver sus estaciones.");
                     return;
@@ -132,7 +140,7 @@ public class GestionLineasController {
         public void actionPerformed(ActionEvent e) {
             String comando = e.getActionCommand();
 
-            if (comando.equals("AgregarEstacion")) {
+            if (comando.equals("Añadir Estación")) {
                 if (vista.getNombreEstacion().isEmpty()) {
                     vista.mostrarMensaje("El nombre de la estación no puede estar vacío.");
                     return;
@@ -146,7 +154,7 @@ public class GestionLineasController {
                     vista.mostrarMensaje("Error al registrar la estación.");
                 }
 
-            } else if (comando.equals("ModificarEstacion")) {
+            } else if (comando.equals("Modificar Est.")) {
                 if (vista.getIdEstacion().isEmpty()) {
                     vista.mostrarMensaje("Seleccione una estación de la tabla para modificar.");
                     return;
@@ -165,7 +173,7 @@ public class GestionLineasController {
                     vista.mostrarMensaje("Error al actualizar la estación.");
                 }
 
-            } else if (comando.equals("EliminarEstacion")) {
+            } else if (comando.equals("Eliminar Est.")) {
                 if (vista.getIdEstacion().isEmpty()) {
                     vista.mostrarMensaje("Seleccione una estación de la tabla para eliminar.");
                     return;
@@ -183,7 +191,7 @@ public class GestionLineasController {
                     }
                 }
 
-            } else if (comando.equals("RegresarALineas")) {
+            } else if (comando.equals("← Volver a Líneas")) {
                 vista.limpiarFormularioEstacion();
                 vista.alternarVistaEstaciones(false);
             }

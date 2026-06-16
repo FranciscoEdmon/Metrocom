@@ -62,6 +62,19 @@ public class LineaDAO {
         }
     }
 
+    public boolean eliminarLinea(int idLinea) {
+        String sql = "DELETE FROM linea WHERE id_linea = ?";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idLinea);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar línea: " + e.getMessage());
+            return false;
+        }
+    }
+
     public Linea buscarPorId(int id_busqueda) {
         Linea lineaEncontrada = null;
         String sql = "SELECT * FROM linea WHERE id_linea = ?";

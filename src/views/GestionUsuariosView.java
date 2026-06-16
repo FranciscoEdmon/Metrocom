@@ -37,7 +37,7 @@ public class GestionUsuariosView extends JFrame {
         txtContrasena = new JPasswordField();
         txtFechaNacimiento = new JTextField();
 
-        cbRol = new JComboBox<>(new String[]{"Usuario", "Administrador", "Jefe de Estación", "Gerente de Línea"});
+        cbRol = new JComboBox<>(new String[]{"Jefe de Estación", "Gerente de Línea"});
         cbLineaAsignada = new JComboBox<>();
         cbEstacionAsignada = new JComboBox<>();
 

@@ -95,11 +95,11 @@ public class GestionUsuariosController {
         public void actionPerformed(ActionEvent e) {
             String comando = e.getActionCommand();
 
-            if (comando.equals("Registrar")) {
+            if (comando.equals("Agregar")) {
                 ejecutarRegistro();
-            } else if (comando.equals("Actualizar") || comando.equals("Modificar")) {
+            } else if (comando.equals("Modificar")) {
                 ejecutarActualizacion();
-            } else if (comando.equals("Dar de Baja")) {
+            } else if (comando.equals("Eliminar")) {
                 ejecutarEliminacion();
             } else if (comando.equals("Volver al Panel")) {
                 vista.dispose();
@@ -130,6 +130,14 @@ public class GestionUsuariosController {
             }
             if (vista.getEstacionSeleccionada() != null) {
                 idEstacion = vista.getEstacionSeleccionada().getId_Estacion();
+            }
+
+            // Restricción de seguridad: un Administrador no puede crear otro Administrador
+            if (rol.equals("Administrador")) {
+                JOptionPane.showMessageDialog(vista,
+                        "No está permitido crear usuarios con rol Administrador desde este panel.",
+                        "Acción no permitida", JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
             // Validaciones de seguridad para roles
@@ -163,6 +171,14 @@ public class GestionUsuariosController {
     private void ejecutarActualizacion() {
         if (vista.getIdUsuario().isEmpty()) {
             JOptionPane.showMessageDialog(vista, "Seleccione un usuario de la tabla para actualizar.");
+            return;
+        }
+
+        // Restricción de seguridad: no se puede asignar el rol Administrador mediante este formulario
+        if (vista.getRolSeleccionado().equals("Administrador")) {
+            JOptionPane.showMessageDialog(vista,
+                    "No está permitido asignar el rol Administrador desde este panel.",
+                    "Acción no permitida", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

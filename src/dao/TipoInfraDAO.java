@@ -19,7 +19,7 @@ public class TipoInfraDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                ListaDeInfra.add(new TipoInfra(rs.getInt("tipo_infra"), rs.getString("tipoInfra")));
+                ListaDeInfra.add(new TipoInfra(rs.getInt("id_tipoinfra"), rs.getString("tipoInfra")));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener los tipos de Infraestructura: " + e.getMessage());

@@ -19,7 +19,7 @@ public class TipoDanoDAO {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                ListaTDano.add(new TipoDano(rs.getInt("idTipodano"), rs.getString("nombreDano")));
+                ListaTDano.add(new TipoDano(rs.getInt("id_Tipodano"), rs.getString("nombreDano")));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener los tipos de daño: " + e.getMessage());
