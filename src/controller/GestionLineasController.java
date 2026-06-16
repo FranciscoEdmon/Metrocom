@@ -52,6 +52,10 @@ public class GestionLineasController {
                     vista.mostrarMensaje("Por favor, complete todos los campos.");
                     return;
                 }
+                if (lineaDAO.existeLineaConNombre(vista.getNombreLinea(), 0)) {
+                    vista.mostrarMensaje("Ya existe una línea con el nombre \"" + vista.getNombreLinea() + "\". Use un nombre diferente.");
+                    return;
+                }
                 Linea nueva = new Linea(0, vista.getNombreLinea(), vista.getColorLinea());
                 if (lineaDAO.registrarLinea(nueva)) {
                     vista.mostrarMensaje("Línea guardada exitosamente.");
@@ -67,6 +71,10 @@ public class GestionLineasController {
                     return;
                 }
                 int id = Integer.parseInt(vista.getIdLinea());
+                if (lineaDAO.existeLineaConNombre(vista.getNombreLinea(), id)) {
+                    vista.mostrarMensaje("Ya existe otra línea con el nombre \"" + vista.getNombreLinea() + "\". Use un nombre diferente.");
+                    return;
+                }
                 Linea editada = new Linea(id, vista.getNombreLinea(), vista.getColorLinea());
                 if (lineaDAO.actualizarLinea(editada)) {
                     vista.mostrarMensaje("Línea actualizada exitosamente.");
@@ -145,6 +153,10 @@ public class GestionLineasController {
                     vista.mostrarMensaje("El nombre de la estación no puede estar vacío.");
                     return;
                 }
+                if (estacionDAO.existeEstacionConNombre(vista.getNombreEstacion(), idLineaActual, 0)) {
+                    vista.mostrarMensaje("Ya existe una estación con el nombre \"" + vista.getNombreEstacion() + "\" en esta línea. Use un nombre diferente.");
+                    return;
+                }
                 Estacion nueva = new Estacion(0, vista.getNombreEstacion(), vista.getIsTransbordo(), idLineaActual);
                 if (estacionDAO.registrarEstacion(nueva)) {
                     vista.mostrarMensaje("Estación agregada con éxito.");
@@ -159,8 +171,13 @@ public class GestionLineasController {
                     vista.mostrarMensaje("Seleccione una estación de la tabla para modificar.");
                     return;
                 }
+                int idEst = Integer.parseInt(vista.getIdEstacion());
+                if (estacionDAO.existeEstacionConNombre(vista.getNombreEstacion(), idLineaActual, idEst)) {
+                    vista.mostrarMensaje("Ya existe otra estación con el nombre \"" + vista.getNombreEstacion() + "\" en esta línea. Use un nombre diferente.");
+                    return;
+                }
                 Estacion editada = new Estacion(
-                        Integer.parseInt(vista.getIdEstacion()),
+                        idEst,
                         vista.getNombreEstacion(),
                         vista.getIsTransbordo(),
                         idLineaActual

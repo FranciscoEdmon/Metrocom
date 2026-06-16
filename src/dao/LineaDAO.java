@@ -75,6 +75,25 @@ public class LineaDAO {
         }
     }
 
+    /**
+     * Verifica si ya existe una línea con el mismo nombre (ignorando mayúsculas/minúsculas).
+     * Para modificaciones, excluye el propio registro usando excludeId.
+     */
+    public boolean existeLineaConNombre(String nombre, int excludeId) {
+        String sql = "SELECT COUNT(*) FROM linea WHERE LOWER(nombreLinea) = LOWER(?) AND id_linea <> ?";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            ps.setInt(2, excludeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar nombre de línea: " + e.getMessage());
+        }
+        return false;
+    }
+
     public Linea buscarPorId(int id_busqueda) {
         Linea lineaEncontrada = null;
         String sql = "SELECT * FROM linea WHERE id_linea = ?";

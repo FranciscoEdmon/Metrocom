@@ -117,6 +117,22 @@ public class GestionUsuariosController {
             return;
         }
 
+        // Validación de nombre duplicado
+        if (usuarioDAO.existeUsuarioConNombre(vista.getNombre(), vista.getApPaterno(), vista.getApMaterno(), 0)) {
+            JOptionPane.showMessageDialog(vista,
+                    "Ya existe un usuario con el nombre \"" + vista.getNombre() + " " + vista.getApPaterno() + " " + vista.getApMaterno() + "\".\nVerifique los datos ingresados.",
+                    "Nombre duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validación de correo duplicado
+        if (usuarioDAO.existeUsuarioConCorreo(vista.getCorreo(), 0)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El correo \"" + vista.getCorreo() + "\" ya está registrado en el sistema.\nUse un correo diferente.",
+                    "Correo duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             LocalDate fecha = LocalDate.parse(vista.getFechaNacimiento());
             String rol = vista.getRolSeleccionado();
@@ -182,9 +198,26 @@ public class GestionUsuariosController {
             return;
         }
 
+        int idUsuario = Integer.parseInt(vista.getIdUsuario());
+
+        // Validación de nombre duplicado (excluyendo el usuario actual)
+        if (usuarioDAO.existeUsuarioConNombre(vista.getNombre(), vista.getApPaterno(), vista.getApMaterno(), idUsuario)) {
+            JOptionPane.showMessageDialog(vista,
+                    "Ya existe otro usuario con el nombre \"" + vista.getNombre() + " " + vista.getApPaterno() + " " + vista.getApMaterno() + "\".\nVerifique los datos ingresados.",
+                    "Nombre duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validación de correo duplicado (excluyendo el usuario actual)
+        if (usuarioDAO.existeUsuarioConCorreo(vista.getCorreo(), idUsuario)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El correo \"" + vista.getCorreo() + "\" ya está registrado por otro usuario.\nUse un correo diferente.",
+                    "Correo duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             LocalDate fecha = LocalDate.parse(vista.getFechaNacimiento());
-            int idUsuario = Integer.parseInt(vista.getIdUsuario());
 
             boolean exito = usuarioDAO.actualizarUsuarioFormulario(
                     idUsuario,

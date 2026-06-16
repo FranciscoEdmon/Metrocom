@@ -36,6 +36,26 @@ public class EstacionDAO {
         return listaDeEstaciones;
     }
 
+    /**
+     * Verifica si ya existe una estación con el mismo nombre dentro de la misma línea.
+     * Para modificaciones, excluye el propio registro usando excludeId.
+     */
+    public boolean existeEstacionConNombre(String nombre, int idLinea, int excludeId) {
+        String sql = "SELECT COUNT(*) FROM estacion WHERE LOWER(nombreEstacion) = LOWER(?) AND id_linea = ? AND id_estacion <> ?";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            ps.setInt(2, idLinea);
+            ps.setInt(3, excludeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar nombre de estación: " + e.getMessage());
+        }
+        return false;
+    }
+
     public Estacion buscarPoId(int id_busqueda){
         Estacion estacionEncontrada = null;
         String sql = "SELECT * FROM estacion WHERE id_estacion = ?";

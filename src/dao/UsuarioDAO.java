@@ -18,6 +18,46 @@ import model.Linea;
 
 public class UsuarioDAO {
 
+    /**
+     * Verifica si ya existe un usuario con el mismo nombre completo (nombre + apellidos).
+     * Para modificaciones, excluye el propio registro usando excludeId.
+     */
+    public boolean existeUsuarioConNombre(String nombre, String apellidoPat, String apellidoMat, int excludeId) {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE LOWER(nombre) = LOWER(?) AND LOWER(apellidoPat) = LOWER(?) AND LOWER(apellidoMat) = LOWER(?) AND id_usuario <> ?";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            ps.setString(2, apellidoPat.trim());
+            ps.setString(3, apellidoMat.trim());
+            ps.setInt(4, excludeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar nombre de usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Verifica si ya existe un usuario con el mismo correo electrónico.
+     * Para modificaciones, excluye el propio registro usando excludeId.
+     */
+    public boolean existeUsuarioConCorreo(String correo, int excludeId) {
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE LOWER(correo) = LOWER(?) AND id_usuario <> ?";
+        try (Connection con = ConexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, correo.trim());
+            ps.setInt(2, excludeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al verificar correo de usuario: " + e.getMessage());
+        }
+        return false;
+    }
+
     public Usuario validarLogin(String correoIngresado, String contrasenaIngresada) {
         Usuario usuarioLogueado = null;
 

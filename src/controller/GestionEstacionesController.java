@@ -57,7 +57,10 @@ public class GestionEstacionesController {
                     vista.mostrarMensaje("El nombre de la estación no puede estar vacío.");
                     return;
                 }
-
+                if (dao.existeEstacionConNombre(vista.getNombreEstacion(), idLineaContexto, 0)) {
+                    vista.mostrarMensaje("Ya existe una estación con el nombre \"" + vista.getNombreEstacion() + "\" en esta línea. Use un nombre diferente.");
+                    return;
+                }
                 Estacion nueva = new Estacion(
                         0, // ID autoincremental en BD
                         vista.getNombreEstacion(),
@@ -78,9 +81,13 @@ public class GestionEstacionesController {
                     vista.mostrarMensaje("Seleccione una estación de la tabla para modificar.");
                     return;
                 }
-
+                int idEst = Integer.parseInt(vista.getIdEstacion());
+                if (dao.existeEstacionConNombre(vista.getNombreEstacion(), idLineaContexto, idEst)) {
+                    vista.mostrarMensaje("Ya existe otra estación con el nombre \"" + vista.getNombreEstacion() + "\" en esta línea. Use un nombre diferente.");
+                    return;
+                }
                 Estacion editada = new Estacion(
-                        Integer.parseInt(vista.getIdEstacion()),
+                        idEst,
                         vista.getNombreEstacion(),
                         vista.isTransbordo(),
                         idLineaContexto
