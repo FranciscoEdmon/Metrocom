@@ -63,7 +63,8 @@ public class GestionUsuariosView extends JFrame {
         panelForm.add(cbEstacionAsignada);
 
         // --- TABLA CENTRAL ---
-        String[] columnas = {"ID", "Nombre Completo", "Correo", "Rol"};
+        // Se agrega la columna "Contraseña" para mostrarla en la tabla de usuarios
+        String[] columnas = {"ID", "Nombre Completo", "Correo", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int r, int c) {
@@ -123,6 +124,9 @@ public class GestionUsuariosView extends JFrame {
     public String getContrasena() { return new String(txtContrasena.getPassword()); }
     public String getRolSeleccionado() { return cbRol.getSelectedItem().toString(); }
     public String getFechaNacimiento() { return txtFechaNacimiento.getText().trim(); }
+
+    /** Permite al controlador escribir el correo generado automáticamente en el campo de texto. */
+    public void setCorreo(String correo) { txtCorreo.setText(correo); }
 
     public JComboBox<Linea> getCbLinea() { return cbLineaAsignada; }
     public JComboBox<Estacion> getCbEstacion() { return cbEstacionAsignada; }

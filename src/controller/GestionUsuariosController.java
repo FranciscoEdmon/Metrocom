@@ -73,7 +73,7 @@ public class GestionUsuariosController {
             else if (u instanceof GerenteLinea) rol = "Gerente de Línea";
 
             vista.getModeloTabla().addRow(new Object[]{
-                    u.getId_Usuario(), nombreCompleto, u.getCorreo(), rol
+                    u.getId_Usuario(), nombreCompleto, u.getCorreo(), u.getContrasena(), rol
             });
         }
     }
@@ -108,11 +108,75 @@ public class GestionUsuariosController {
     }
 
     // ==========================================
+    // MÉTODOS AUXILIARES DE VALIDACIÓN
+    // ==========================================
+
+    /**
+     * Verifica que un texto contenga SOLO letras (incluyendo acentos y ñ).
+     * Rechaza números y caracteres especiales como @, #, %, etc.
+     */
+    private boolean soloLetras(String texto) {
+        // La expresión regular [\\p{L}\\s]+ acepta:
+        //   \\p{L}  → cualquier letra de cualquier idioma (a-z, á, é, ñ, etc.)
+        //   \\s     → espacios (por si el nombre tiene dos palabras)
+        //   +       → al menos un carácter
+        return texto != null && !texto.trim().isEmpty() && texto.matches("[\\p{L}\\s]+");
+    }
+
+    /**
+     * Genera automáticamente el correo institucional con el formato:
+     *   nombreapellidopaterno@metrocdmx.com
+     * Todo en minúsculas y sin acentos.
+     * Ejemplo: "Juan Pérez" → "juanperez@metrocdmx.com"
+     */
+    private String generarCorreo(String nombre, String apellidoPat) {
+        // Normalizamos: quitamos acentos, pasamos a minúsculas y eliminamos espacios
+        String base = (nombre.trim() + apellidoPat.trim())
+                .toLowerCase()
+                .replaceAll("[áàä]", "a")
+                .replaceAll("[éèë]", "e")
+                .replaceAll("[íìï]", "i")
+                .replaceAll("[óòö]", "o")
+                .replaceAll("[úùü]", "u")
+                .replaceAll("[ñ]", "n")
+                .replaceAll("\\s+", ""); // elimina espacios internos
+        return base + "@metrocdmx.com";
+    }
+
+    // ==========================================
     // LÓGICA DE CRUD
     // ==========================================
 
     private void ejecutarRegistro() {
-        if (vista.getNombre().isEmpty() || vista.getCorreo().isEmpty() || vista.getContrasena().isEmpty()) {
+        String nombre    = vista.getNombre();
+        String apPaterno = vista.getApPaterno();
+        String apMaterno = vista.getApMaterno();
+
+        // --- VALIDACIÓN: solo letras en nombre y apellidos ---
+        if (!soloLetras(nombre)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El nombre solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!soloLetras(apPaterno)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El apellido paterno solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!soloLetras(apMaterno)) {
+            JOptionPane.showMessageDialog(vista,
+                    "El apellido materno solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // --- GENERACIÓN AUTOMÁTICA DEL CORREO ---
+        String correoGenerado = generarCorreo(nombre, apPaterno);
+        vista.setCorreo(correoGenerado); // ponemos el correo en el campo de la vista
+
+        if (vista.getContrasena().isEmpty()) {
             JOptionPane.showMessageDialog(vista, "Por favor, llene los campos obligatorios.");
             return;
         }
@@ -187,6 +251,26 @@ public class GestionUsuariosController {
     private void ejecutarActualizacion() {
         if (vista.getIdUsuario().isEmpty()) {
             JOptionPane.showMessageDialog(vista, "Seleccione un usuario de la tabla para actualizar.");
+            return;
+        }
+
+        // --- VALIDACIÓN: solo letras en nombre y apellidos ---
+        if (!soloLetras(vista.getNombre())) {
+            JOptionPane.showMessageDialog(vista,
+                    "El nombre solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!soloLetras(vista.getApPaterno())) {
+            JOptionPane.showMessageDialog(vista,
+                    "El apellido paterno solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!soloLetras(vista.getApMaterno())) {
+            JOptionPane.showMessageDialog(vista,
+                    "El apellido materno solo puede contener letras.\nNo se permiten números ni caracteres especiales.",
+                    "Dato inválido", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -269,10 +353,12 @@ public class GestionUsuariosController {
         public void mouseClicked(MouseEvent e) {
             int fila = vista.getTablaUsuarios().getSelectedRow();
             if (fila != -1) {
+                // Los índices de columna ahora son:
+                // 0 = ID, 1 = Nombre Completo, 2 = Correo, 3 = Contraseña, 4 = Rol
                 String id = vista.getTablaUsuarios().getValueAt(fila, 0).toString();
                 String nombreCompleto = vista.getTablaUsuarios().getValueAt(fila, 1).toString();
                 String correo = vista.getTablaUsuarios().getValueAt(fila, 2).toString();
-                String rol = vista.getTablaUsuarios().getValueAt(fila, 3).toString();
+                String rol = vista.getTablaUsuarios().getValueAt(fila, 4).toString(); // columna 4, no 3
 
                 String[] partes = nombreCompleto.split(" ");
                 String nom = partes[0];
